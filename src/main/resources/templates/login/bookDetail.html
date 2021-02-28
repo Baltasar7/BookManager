@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"></meta>
+</head>
+<body>
+    <div th:fragment="bookDetail_contents">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="page-header">
+                    <h1>書籍詳細</h1>
+                </div>
+                <form method="post" th:action="@{/bookDetail}" th:object="${bookRegistForm}">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th class="active col-sm-2">ID</th>
+                            <td class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{bookId}" />
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th class="active col-sm-2">タイトル</th>
+                            <td class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{title}" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active">著者</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{author}" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active">出版社</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{publisher}" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary btn-lg pull-right" type="submit" name="update">更新</button>
+                    <button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

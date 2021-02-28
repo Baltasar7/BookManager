@@ -19,30 +19,21 @@ import com.example.demo.login.domain.service.UserService;
 
 @Controller
 public class SignupController {
-
     @Autowired
     private UserService userService;
+		private Map<Integer, String> departmentPulldown;
 
-	  // プルダウンメニュー用変数
-	  private Map<Integer, String> departmentPulldown;
+		private Map<Integer, String> initDepartmentPulldown() {
+		    Map<Integer, String> pulldown = new LinkedHashMap<>();
 
-	  /**
-	   * ラジオボタンの初期化メソッド.
-	   */
-	  private Map<Integer, String> initDepartmentPulldown() {
-	      Map<Integer, String> pulldown = new LinkedHashMap<>();
+		    pulldown.put(0, "福岡営業所");
+		    pulldown.put(1, "東京営業所");
+		    pulldown.put(2, "大阪営業所");
+		    pulldown.put(3, "名古屋営業所");
 
-	      pulldown.put(0, "福岡営業所");
-	      pulldown.put(1, "東京営業所");
-	      pulldown.put(2, "大阪営業所");
-	      pulldown.put(3, "名古屋営業所");
+		    return pulldown;
+		}
 
-	      return pulldown;
-	  }
-
-    /**
-     * ユーザー登録画面のGETメソッド用処理.
-     */
     @GetMapping("/signup")
     public String getSignUp(@ModelAttribute SignupForm form, Model model) {
       	departmentPulldown = initDepartmentPulldown();
@@ -51,9 +42,6 @@ public class SignupController {
         return "login/signup";
     }
 
-    /**
-     * ユーザー登録画面のPOSTメソッド用処理.
-     */
     @PostMapping("/signup")
     public String postSignUp(@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
  	      BindingResult bindingResult,
@@ -67,11 +55,11 @@ public class SignupController {
         System.out.println(form);
 
         User user = new User();
-        user.setUserId(form.getUserId()); //ユーザーID
-        user.setPassword(form.getPassword()); //パスワード
-        user.setUserName(form.getUserName()); //ユーザー名
-        user.setDepartment(form.getDepartment()); //所属部署
-        user.setRole("ROLE_GENERAL"); //ロール（一般）
+        user.setUserId(form.getUserId());
+        user.setPassword(form.getPassword());
+        user.setUserName(form.getUserName());
+        user.setDepartment(form.getDepartment());
+        user.setRole("ROLE_GENERAL");
 
         boolean result = userService.insert(user);
 
@@ -80,6 +68,6 @@ public class SignupController {
         } else {
             System.out.println("insert失敗");
         }
-        return "redirect:/login";
+        return "redirect:/userList";
     }
 }

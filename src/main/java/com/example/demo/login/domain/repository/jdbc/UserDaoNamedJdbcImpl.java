@@ -23,7 +23,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //Userテーブルの件数を取得.
     @Override
     public int count() {
         String sql = "SELECT COUNT(*) FROM m_user";
@@ -31,7 +30,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         return jdbc.queryForObject(sql, params, Integer.class);
     }
 
-    //Userテーブルにデータを1件insert.
     @Override
     public int insertOne(User user) {
         String password = passwordEncoder.encode(user.getPassword());
@@ -57,7 +55,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         return jdbc.update(sql, params);
     }
 
-    //Userテーブルのデータを１件取得
     @Override
     public User selectOne(String userId) {
         String sql = "SELECT * FROM m_user WHERE user_id = :userId";
@@ -66,16 +63,15 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         Map<String, Object> map = jdbc.queryForMap(sql, params);
 
         User user = new User();
-        user.setUserId((String)map.get("user_id"));    //ユーザーID
-        user.setPassword((String)map.get("password"));  //パスワード
-        user.setUserName((String)map.get("user_name")); //ユーザー名
-        user.setDepartment((String)map.get("department")); //所属部署
-        user.setRole((String)map.get("role")); //ロール
+        user.setUserId((String)map.get("user_id"));
+        user.setPassword((String)map.get("password"));
+        user.setUserName((String)map.get("user_name"));
+        user.setDepartment((String)map.get("department"));
+        user.setRole((String)map.get("role"));
 
         return user;
     }
 
-    //Userテーブルの全データを取得.
     @Override
     public List<User> selectMany() {
         String sql = "SELECT * FROM m_user";
@@ -86,11 +82,11 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         for(Map<String, Object> map: getList) {
 
             User user = new User();
-            user.setUserId((String)map.get("user_id"));    //ユーザーID
-            user.setPassword((String)map.get("password"));  //パスワード
-            user.setUserName((String)map.get("user_name")); //ユーザー名
-            user.setDepartment((String)map.get("department")); //所属部署
-            user.setRole((String)map.get("role")); //ロール
+            user.setUserId((String)map.get("user_id"));
+            user.setPassword((String)map.get("password"));
+            user.setUserName((String)map.get("user_name"));
+            user.setDepartment((String)map.get("department"));
+            user.setRole((String)map.get("role"));
 
             userList.add(user);
         }
@@ -98,16 +94,15 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         return userList;
     }
 
-    //Userテーブルを１件更新.
     @Override
     public int updateOne(User user) {
         String password = passwordEncoder.encode(user.getPassword());
 
-        String sql = "UPDATE M_USER"
+        String sql = "UPDATE m_user"
                 + " SET"
                 +   " password = :password,"
                 +   " user_name = :userName,"
-                +   " department = :department,"
+                +   " department = :department"
                 +   " WHERE user_id = :userId";
 
         SqlParameterSource params = new MapSqlParameterSource()
@@ -119,7 +114,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         return jdbc.update(sql, params);
     }
 
-    //Userテーブルを１件削除.
     @Override
     public int deleteOne(String userId) {
         String sql = "DELETE FROM m_user WHERE user_id = :userId";
@@ -130,7 +124,6 @@ public class UserDaoNamedJdbcImpl implements UserDao {
         return rowNumber;
     }
 
-    //SQL取得結果をサーバーにCSVで保存する
     @Override
     public void userCsvOut() {
         String sql = "SELECT * FROM m_user";
