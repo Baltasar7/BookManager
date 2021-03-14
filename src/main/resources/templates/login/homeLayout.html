@@ -37,7 +37,10 @@
                     <li role="presentation">
                         <a th:href="@{'/bookList'}">書籍管理</a>
                     </li>
-                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                    <li role="presentation">
+                                                         貸出管理
+                    </li>
+                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/signup'}">ユーザ追加</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">

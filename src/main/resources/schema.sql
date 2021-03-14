@@ -13,3 +13,9 @@ CREATE TABLE IF NOT EXISTS m_book (
     author VARCHAR(32),
     publisher VARCHAR(32)
 );
+
+CREATE TABLE IF NOT EXISTS m_lending (
+    lending_id VARCHAR(8) PRIMARY KEY,
+    user_id VARCHAR(6), /* TODO:FOREIGN KEY */
+    book_id VARCHAR(8), /* TODO:FOREIGN KEY */
+);

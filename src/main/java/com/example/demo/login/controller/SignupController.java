@@ -36,10 +36,12 @@ public class SignupController {
 
     @GetMapping("/signup")
     public String getSignUp(@ModelAttribute SignupForm form, Model model) {
+        model.addAttribute("contents", "login/signup :: signup_contents");
+
       	departmentPulldown = initDepartmentPulldown();
       	model.addAttribute("departmentPulldown", departmentPulldown);
 
-        return "login/signup";
+        return "login/homeLayout";
     }
 
     @PostMapping("/signup")

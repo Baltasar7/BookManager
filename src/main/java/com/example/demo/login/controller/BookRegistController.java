@@ -21,7 +21,8 @@ public class BookRegistController {
 
     @GetMapping("/bookRegist")
     public String getBookRegist(@ModelAttribute BookRegistForm form, Model model) {
-        return "login/bookRegist";
+        model.addAttribute("contents", "login/bookRegist :: bookRegist_contents");
+        return "login/homeLayout";
     }
 
     @PostMapping("/bookRegist")
