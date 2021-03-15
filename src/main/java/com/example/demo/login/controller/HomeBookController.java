@@ -28,7 +28,7 @@ public class HomeBookController {
     public String getBookList(Model model) {
         model.addAttribute("contents", "login/bookList :: bookList_contents");
 
-        List<Book> bookList = bookService.selectMany();
+        List<Book> bookList = bookService.selectAll();
         model.addAttribute("bookList", bookList);
 
         int count = bookService.count();

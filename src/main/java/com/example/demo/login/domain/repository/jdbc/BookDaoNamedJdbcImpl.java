@@ -60,7 +60,7 @@ public class BookDaoNamedJdbcImpl implements BookDao {
     }
 
     @Override
-    public List<Book> selectMany() {
+    public List<Book> selectAll() {
         String sql = "SELECT * FROM m_book";
         SqlParameterSource params = new MapSqlParameterSource();
         List<Map<String, Object>> getList = jdbc.queryForList(sql, params);

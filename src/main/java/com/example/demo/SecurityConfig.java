@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -25,7 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // ユーザーIDとパスワードを取得するSQL文
     private static final String USER_SQL = "SELECT"
             + " user_id,"
             + " password,"
@@ -35,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             + " WHERE"
             + " user_id = ?";
 
-    // ユーザーのロールを取得するSQL文
     private static final String ROLE_SQL = "SELECT"
             + " user_id,"
             + " role"
@@ -53,32 +50,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/webjars/**").permitAll() //webjarsへアクセス許可
-                .antMatchers("/css/**").permitAll() //cssへアクセス許可
-                .antMatchers("/login").permitAll() //ログインページは直リンクOK
-                .antMatchers("/signup").permitAll() //ユーザー登録画面は直リンクOK
-                .antMatchers("/rest/**").permitAll() //RESTは直リンクOK
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
                 .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated(); //それ以外は直リンク禁止
+                .anyRequest().authenticated();
 
         http
             .formLogin()
-                .loginProcessingUrl("/login") //
-                .loginPage("/login") //ログインページの指定
-                .failureUrl("/login") //ログイン失敗時の遷移先
-                .usernameParameter("userId") //ログインページのユーザーID
-                .passwordParameter("password") //ログインページのパスワード
-                .defaultSuccessUrl("/home", true); //ログイン成功後の遷移先
+                .loginProcessingUrl("/login")
+                .loginPage("/login")
+                .failureUrl("/login")
+                .usernameParameter("userId")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true);
 
         http
 	          .logout()
-	          .logoutUrl("/logout") //ログアウトのURL
-	          .logoutSuccessUrl("/login"); //ログアウト成功後のURL
+	          .logoutUrl("/logout")
+	          .logoutSuccessUrl("/login");
 
-        RequestMatcher csrfMatcher = new RestMatcher("/rest/**");
-        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
-
-        // temp
+        // Debug
         //http.csrf().disable();
     }
 

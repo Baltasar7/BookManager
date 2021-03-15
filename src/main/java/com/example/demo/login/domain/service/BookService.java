@@ -37,8 +37,8 @@ public class BookService {
         return dao.count();
     }
 
-    public List<Book> selectMany() {
-        return dao.selectMany();
+    public List<Book> selectAll() {
+        return dao.selectAll();
     }
 
     public Book selectOne(Integer bookId) {

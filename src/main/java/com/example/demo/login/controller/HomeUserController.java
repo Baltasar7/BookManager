@@ -41,7 +41,7 @@ public class HomeUserController {
     public String getUserList(Model model) {
         model.addAttribute("contents", "login/userList :: userList_contents");
 
-        List<User> userList = userService.selectMany();
+        List<User> userList = userService.selectAll();
         model.addAttribute("userList", userList);
 
         int count = userService.count();

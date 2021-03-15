@@ -73,7 +73,7 @@ public class UserDaoNamedJdbcImpl implements UserDao {
     }
 
     @Override
-    public List<User> selectMany() {
+    public List<User> selectAll() {
         String sql = "SELECT * FROM m_user";
         SqlParameterSource params = new MapSqlParameterSource();
         List<Map<String, Object>> getList = jdbc.queryForList(sql, params);

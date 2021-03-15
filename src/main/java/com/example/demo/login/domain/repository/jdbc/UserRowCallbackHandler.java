@@ -14,7 +14,7 @@ public class UserRowCallbackHandler implements RowCallbackHandler {
     @Override
     public void processRow(ResultSet rs) throws SQLException {
         try {
-            File file = new File("sample.csv");
+            File file = new File("UserList.csv");
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 

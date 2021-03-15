@@ -39,8 +39,8 @@ public class RestServiceJdbcImpl implements RestService {
 
     //全件検索用メソッド
     @Override
-    public List<User> selectMany() {
-        return dao.selectMany();
+    public List<User> selectAll() {
+        return dao.selectAll();
     }
 
     //１件更新用メソッド

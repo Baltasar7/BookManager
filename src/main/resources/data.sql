@@ -15,3 +15,34 @@ VALUES('JUnit実践入門', '渡辺修司', '技術評論社');
 
 INSERT INTO m_book (title, author, publisher)
 VALUES('エクストリームプログラミング', 'ケント・ベック', 'オーム社');
+
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java1', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java2', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java3', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java4', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java5', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java6', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java7', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java8', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java9', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java10', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java11', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java12', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java13', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java14', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java15', 'aaa', 'bbb');

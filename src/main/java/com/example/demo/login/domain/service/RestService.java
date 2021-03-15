@@ -13,7 +13,7 @@ public interface RestService {
     public User selectOne(String userId);
 
     //全件検索用メソッド
-    public List<User> selectMany();
+    public List<User> selectAll();
 
     //１件更新用メソッド
     public boolean update(User user);
