@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class BookRegistForm {
-
-		@NotBlank(groups = ValidGroup1.class)
     private String bookId;
 
     @NotBlank(groups = ValidGroup1.class)

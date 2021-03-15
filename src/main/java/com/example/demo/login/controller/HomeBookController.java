@@ -43,13 +43,13 @@ public class HomeBookController {
         Model model,
         @PathVariable("id") String bookId) {
 
-    	  // デバッグ
+    	  // Debug
 	      System.out.println("bookId = " + bookId);
         model.addAttribute("contents", "login/bookDetail :: bookDetail_contents");
 
         if (bookId != null && bookId.length() > 0) {
-            Book book = bookService.selectOne(bookId);
-            form.setBookId(book.getBookId());
+            Book book = bookService.selectOne(Integer.parseInt(bookId));
+            form.setBookId(book.getBookId().toString());
             form.setTitle(book.getTitle());
             form.setAuthor(book.getAuthor());
             form.setPublisher(book.getPublisher());
@@ -60,11 +60,11 @@ public class HomeBookController {
 
     @PostMapping(value = "/bookDetail", params = "update")
     public String postBookDetailUpdate(@ModelAttribute BookRegistForm form, Model model) {
-    		// デバッグ
+    		// Debug
     		System.out.println("更新ボタンの処理");
 
         Book book = new Book();
-        book.setBookId(form.getBookId());
+        book.setBookId(Integer.parseInt(form.getBookId()));
         book.setTitle(form.getTitle());
         book.setAuthor(form.getAuthor());
         book.setPublisher(form.getPublisher());
@@ -84,10 +84,10 @@ public class HomeBookController {
 
     @PostMapping(value = "/bookDetail", params = "delete")
     public String postBookDetailDelete(@ModelAttribute BookRegistForm form, Model model) {
-    		// デバッグ
+    		// Debug
         System.out.println("削除ボタンの処理");
 
-        boolean result = bookService.deleteOne(form.getBookId());
+        boolean result = bookService.deleteOne(Integer.parseInt(form.getBookId()));
 
         if (result == true) {
             model.addAttribute("result", "削除成功");

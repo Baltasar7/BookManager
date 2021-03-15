@@ -41,7 +41,7 @@ public class BookService {
         return dao.selectMany();
     }
 
-    public Book selectOne(String bookId) {
+    public Book selectOne(Integer bookId) {
         return dao.selectOne(bookId);
     }
 
@@ -54,7 +54,7 @@ public class BookService {
         return result;
     }
 
-    public boolean deleteOne(String bookId) {
+    public boolean deleteOne(Integer bookId) {
         int rowNumber = dao.deleteOne(bookId);
         boolean result = false;
         if (rowNumber > 0) {

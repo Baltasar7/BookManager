@@ -32,14 +32,14 @@ public class BookRegistController {
 	      Model model) {
 
         if (bindingResult.hasErrors()) {
+            System.out.println("bindingResult hasErrors() true");
             return getBookRegist(form, model);
        }
 
-        // デバッグ
+        // Debug
         System.out.println(form);
 
         Book book = new Book();
-        book.setBookId(form.getBookId());
         book.setTitle(form.getTitle());
         book.setAuthor(form.getAuthor());
         book.setPublisher(form.getPublisher());

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Book {
-    private String bookId; // Todo:DBで自動付与対応した時点で廃止
+    private Integer bookId;
     private String title;
     private String author;
     private String publisher;

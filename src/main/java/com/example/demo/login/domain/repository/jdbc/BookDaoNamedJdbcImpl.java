@@ -28,16 +28,15 @@ public class BookDaoNamedJdbcImpl implements BookDao {
 
     @Override
     public int insertOne(Book book) {
-        String sql = "INSERT INTO m_book(book_id,"
+        String sql = "INSERT INTO m_book("
                 +   " title,"
                 +   " author,"
                 +   " publisher)"
-                + " VALUES(:bookId,"
+                + " VALUES("
                 +   " :title,"
                 +   " :author,"
                 +   " :publisher)";
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("bookId", book.getBookId())
                 .addValue("title", book.getTitle())
                 .addValue("author", book.getAuthor())
                 .addValue("publisher", book.getPublisher());
@@ -45,14 +44,14 @@ public class BookDaoNamedJdbcImpl implements BookDao {
     }
 
     @Override
-    public Book selectOne(String bookId) {
+    public Book selectOne(Integer bookId) {
         String sql = "SELECT * FROM m_book WHERE book_id = :bookId";
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("bookId", bookId);
         Map<String, Object> map = jdbc.queryForMap(sql, params);
 
         Book book = new Book();
-        book.setBookId((String)map.get("book_id"));
+        book.setBookId((Integer)map.get("book_id"));
         book.setTitle((String)map.get("title"));
         book.setAuthor((String)map.get("author"));
         book.setPublisher((String)map.get("publisher"));
@@ -69,7 +68,7 @@ public class BookDaoNamedJdbcImpl implements BookDao {
 
         for(Map<String, Object> map: getList) {
 	          Book book = new Book();
-	          book.setBookId((String)map.get("book_id"));
+	          book.setBookId((Integer)map.get("book_id"));
 	          book.setTitle((String)map.get("title"));
 	          book.setAuthor((String)map.get("author"));
 	          book.setPublisher((String)map.get("publisher"));
@@ -95,7 +94,7 @@ public class BookDaoNamedJdbcImpl implements BookDao {
     }
 
     @Override
-    public int deleteOne(String bookId) {
+    public int deleteOne(Integer bookId) {
         String sql = "DELETE FROM m_book WHERE book_id = :bookId";
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("bookId", bookId);
