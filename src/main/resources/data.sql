@@ -32,17 +32,3 @@ INSERT INTO m_book (title, author, publisher)
 VALUES('Java7', 'aaa', 'bbb');
 INSERT INTO m_book (title, author, publisher)
 VALUES('Java8', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java9', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java10', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java11', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java12', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java13', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java14', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java15', 'aaa', 'bbb');
