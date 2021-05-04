@@ -9,13 +9,10 @@ VALUES('112233', '$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.Qji1huIPa',
 
 INSERT INTO m_book (title, author, publisher)
 VALUES('Effective Java', 'ジョシュア・ブロック', '丸善出版');
-
 INSERT INTO m_book (title, author, publisher)
 VALUES('JUnit実践入門', '渡辺修司', '技術評論社');
-
 INSERT INTO m_book (title, author, publisher)
 VALUES('エクストリームプログラミング', 'ケント・ベック', 'オーム社');
-
 INSERT INTO m_book (title, author, publisher)
 VALUES('Java1', 'aaa', 'bbb');
 INSERT INTO m_book (title, author, publisher)
@@ -32,3 +29,6 @@ INSERT INTO m_book (title, author, publisher)
 VALUES('Java7', 'aaa', 'bbb');
 INSERT INTO m_book (title, author, publisher)
 VALUES('Java8', 'aaa', 'bbb');
+
+INSERT INTO m_lending (book_id, user_id)
+VALUES('2','112233')

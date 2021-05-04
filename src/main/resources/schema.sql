@@ -18,10 +18,10 @@ CREATE TABLE IF NOT EXISTS m_book (
 
 CREATE TABLE IF NOT EXISTS m_lending (
     lending_id INTEGER NOT NULL AUTO_INCREMENT,
-    user_id VARCHAR(6) NOT NULL,
     book_id INTEGER NOT NULL,
+    user_id VARCHAR(6) NOT NULL,
     PRIMARY KEY(lending_id),
-    FOREIGN KEY(user_id) REFERENCES m_user(user_id),
     FOREIGN KEY(book_id) REFERENCES m_book(book_id),
+    FOREIGN KEY(user_id) REFERENCES m_user(user_id)
 );
 
