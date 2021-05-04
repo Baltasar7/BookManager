@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.login.domain.repository.mybatis.BookMapper">
+
+    <!-- マッピング定義 -->
+    <resultMap type="com.example.demo.login.domain.model.Book" id="book">
+        <id column="book_id" property="bookId" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="publisher" property="publisher" />
+    </resultMap>
+
+    <!-- 1件count -->
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_book
+    </select>
+
+    <!-- １件insert -->
+    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Book">
+        INSERT INTO m_book (
+            title,
+            author,
+            publisher)
+        VALUES (
+            #{title},
+            #{author},
+            #{publisher})
+    </insert>
+
+    <!-- １件検索 -->
+    <select id="selectOne" parameterType="int" resultMap="book">
+        SELECT
+            *
+        FROM
+            m_book
+        WHERE
+            book_id = #{bookId}
+    </select>
+
+    <!-- 全件検索 -->
+    <select id="selectAll" resultMap="book">
+        SELECT
+            *
+        FROM
+            m_book
+    </select>
+
+    <!-- １件更新 -->
+    <update id="updateOne" parameterType="com.example.demo.login.domain.model.Book">
+        UPDATE m_book
+        SET
+            title = #{title},
+            author = #{author},
+            publisher = #{publisher}
+        WHERE
+            book_id = #{bookId}
+    </update>
+
+    <!-- １件削除 -->
+    <delete id="deleteOne" parameterType="int">
+        DELETE FROM m_book WHERE book_id = #{bookId}
+    </delete>
+</mapper>

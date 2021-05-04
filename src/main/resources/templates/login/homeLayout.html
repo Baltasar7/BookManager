@@ -31,14 +31,14 @@
         <div class="row">
             <div class="col-sm-2 sidebar">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation">
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/userList'}">ユーザ管理</a>
                     </li>
                     <li role="presentation">
                         <a th:href="@{'/bookList'}">書籍管理</a>
                     </li>
                     <li role="presentation">
-                                                         貸出管理
+                        <a th:href="@{'/lendingList'}">貸出管理</a>
                     </li>
                      <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/signup'}">ユーザ追加</a>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.login.domain.repository.mybatis.LendingMapper">
+
+    <!-- マッピング定義 -->
+    <resultMap type="com.example.demo.login.domain.model.Lending" id="lending">
+        <id column="lending_id" property="lendingId" />
+        <id column="book_id" property="bookId" />
+        <id column="user_id" property="userId" />
+    </resultMap>
+    <resultMap type="com.example.demo.login.domain.model.LendingView" id="lendingView">
+        <id column="lending_id" property="lendingId" />
+        <result column="title" property="title" />
+        <result column="user_name" property="userName" />
+    </resultMap>
+
+    <!-- 1件count -->
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_lending
+    </select>
+
+    <!-- １件insert -->
+    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Lending">
+        INSERT INTO m_lending (
+            lending_id,
+            book_id,
+            user_id)
+        VALUES (
+            #{lendingId},
+            #{bookId},
+            #{userId})
+    </insert>
+
+    <!-- １件検索 -->
+    <select id="selectOne" parameterType="int" resultMap="lending">
+        SELECT
+            *
+        FROM
+            m_lending
+        WHERE
+            lending_id = #{lendingId}
+    </select>
+
+    <!-- 全件検索 -->
+    <select id="selectAll" resultMap="lendingView">
+        SELECT
+            lending_id,
+            title,
+            user_name
+        FROM
+            m_lending,
+            m_book,
+            m_user
+        WHERE
+            m_lending.book_id = m_book.book_id AND
+            m_lending.user_id = m_user.user_id
+    </select>
+
+    <!-- １件更新 -->
+    <update id="updateOne" parameterType="com.example.demo.login.domain.model.Lending">
+        UPDATE m_lending
+        SET
+            lending_id = #{lendingId},
+            book_id = #{bookId},
+            user_id = #{userId}
+        WHERE
+            lending_id = #{lendingId}
+    </update>
+
+    <!-- １件削除 -->
+    <delete id="deleteOne" parameterType="int">
+        DELETE FROM m_lending WHERE lending_id = #{lendingId}
+    </delete>
+</mapper>

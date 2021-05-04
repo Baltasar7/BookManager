@@ -12,22 +12,23 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.login.domain.model.Book;
-import com.example.demo.login.domain.repository.mybatis.BookMapper;
+import com.example.demo.login.domain.model.Lending;
+import com.example.demo.login.domain.model.LendingView;
+import com.example.demo.login.domain.repository.mybatis.LendingMapper;
 
 @Transactional
 @Service
-public class BookService {
+public class LendingService {
 
 //    @Autowired
-//    @Qualifier("BookDaoJdbcImpl")
-//    BookDao dao;
+//    @Qualifier("LendingDaoJdbcImpl")
+//    LendingDao dao;
 
 		@Autowired
-		BookMapper dao;
+		LendingMapper dao;
 
-    public boolean insert(Book book) {
-        int rowNumber = dao.insertOne(book);
+    public boolean insert(Lending lending) {
+        int rowNumber = dao.insertOne(lending);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
@@ -39,25 +40,25 @@ public class BookService {
         return dao.count();
     }
 
-    public List<Book> selectAll() {
+    public List<LendingView> selectAll() {
         return dao.selectAll();
     }
 
-    public Book selectOne(Integer bookId) {
-        return dao.selectOne(bookId);
+    public Lending selectOne(Integer lendingId) {
+        return dao.selectOne(lendingId);
     }
 
-    public boolean updateOne(Book book) {
+    public boolean updateOne(Lending lending) {
         boolean result = false;
-        int rowNumber = dao.updateOne(book);
+        int rowNumber = dao.updateOne(lending);
         if (rowNumber > 0) {
             result = true;
         }
         return result;
     }
 
-    public boolean deleteOne(Integer bookId) {
-        int rowNumber = dao.deleteOne(bookId);
+    public boolean deleteOne(Integer lendingId) {
+        int rowNumber = dao.deleteOne(lendingId);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
@@ -65,8 +66,8 @@ public class BookService {
         return result;
     }
 
-    public void bookCsvOut() throws DataAccessException {
-        dao.bookCsvOut();
+    public void lendingCsvOut() throws DataAccessException {
+        dao.lendingCsvOut();
     }
 
     public byte[] getFile(String fileName) throws IOException {
