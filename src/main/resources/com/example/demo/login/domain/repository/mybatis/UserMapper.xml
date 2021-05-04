@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.login.domain.repository.mybatis.UserMapper">
+
+    <!-- マッピング定義 -->
+    <resultMap type="com.example.demo.login.domain.model.User" id="user">
+        <id column="user_id" property="userId" />
+        <result column="password" property="password" />
+        <result column="user_name" property="userName" />
+        <result column="department" property="department" />
+        <result column="role" property="role" />
+    </resultMap>
+
+    <!-- 1件count -->
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_user
+    </select>
+
+    <!-- １件insert -->
+    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.User">
+        INSERT INTO m_user (
+            user_id,
+            password,
+            user_name,
+            department,
+            role)
+        VALUES (
+            #{userId},
+            #{password},
+            #{userName},
+            #{department},
+            #{role})
+    </insert>
+
+    <!-- １件検索 -->
+    <select id="selectOne" parameterType="string" resultMap="user">
+        SELECT
+            *
+        FROM
+            m_user
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <!-- 全件検索 -->
+    <select id="selectAll" resultMap="user">
+        SELECT
+            *
+        FROM
+            m_user
+    </select>
+
+    <!-- １件更新 -->
+    <update id="updateOne" parameterType="com.example.demo.login.domain.model.User">
+        UPDATE m_user
+        SET
+            password = #{password},
+            user_name = #{userName},
+            department = #{department}
+        WHERE
+            user_id = #{userId}
+    </update>
+
+    <!-- １件削除 -->
+    <delete id="deleteOne" parameterType="string">
+        DELETE FROM m_user WHERE user_id = #{userId}
+    </delete>
+</mapper>

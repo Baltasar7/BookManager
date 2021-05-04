@@ -8,21 +8,23 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.Book;
-import com.example.demo.login.domain.repository.BookDao;
+import com.example.demo.login.domain.repository.mybatis.BookMapper;
 
 @Transactional
 @Service
 public class BookService {
 
-    @Autowired
-    @Qualifier("BookDaoNamedJdbcImpl")
-    BookDao dao;
+//    @Autowired
+//    @Qualifier("BookDaoJdbcImpl")
+//    BookDao dao;
+
+		@Autowired
+		BookMapper dao;
 
     public boolean insert(Book book) {
         int rowNumber = dao.insertOne(book);

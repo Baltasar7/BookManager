@@ -8,23 +8,32 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.User;
-import com.example.demo.login.domain.repository.UserDao;
+import com.example.demo.login.domain.repository.mybatis.UserMapper;
 
 @Transactional
 @Service
 public class UserService {
 
+//    @Autowired
+//    @Qualifier("UserDaoJdbcImpl")
+//    UserDao dao;
+
     @Autowired
-    @Qualifier("UserDaoNamedJdbcImpl")
-    UserDao dao;
+    UserMapper dao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public boolean insert(User user) {
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+
         int rowNumber = dao.insertOne(user);
         boolean result = false;
 
@@ -48,6 +57,10 @@ public class UserService {
 
     public boolean updateOne(User user) {
         boolean result = false;
+
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+
         int rowNumber = dao.updateOne(user);
 
         if (rowNumber > 0) {

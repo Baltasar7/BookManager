@@ -8,22 +8,24 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.Lending;
 import com.example.demo.login.domain.model.LendingView;
-import com.example.demo.login.domain.repository.LendingDao;
+import com.example.demo.login.domain.repository.mybatis.LendingMapper;
 
 @Transactional
 @Service
 public class LendingService {
 
-    @Autowired
-    @Qualifier("LendingDaoNamedJdbcImpl")
-    LendingDao dao;
+//    @Autowired
+//    @Qualifier("LendingDaoJdbcImpl")
+//    LendingDao dao;
+
+		@Autowired
+		LendingMapper dao;
 
     public boolean insert(Lending lending) {
         int rowNumber = dao.insertOne(lending);
