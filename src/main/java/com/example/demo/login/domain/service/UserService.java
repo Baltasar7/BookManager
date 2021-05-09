@@ -9,16 +9,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.User;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.repository.mybatis.UserMapper;
 
 @Transactional
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 //    @Autowired
 //    @Qualifier("UserDaoJdbcImpl")
@@ -29,6 +33,15 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Override
+  	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    	User user = selectOne(userId);
+    	if(userId == null) {
+    		throw new UsernameNotFoundException(userId + " is not found");
+    	}
+    	return new UserDetailsImpl(user);
+  	}
 
     public boolean insert(User user) {
         String password = passwordEncoder.encode(user.getPassword());
