@@ -51,9 +51,9 @@ public class HomeUserController {
     }
 
     @GetMapping("/userDetail/{id:.+}")
-    public String getUserDetail(@ModelAttribute SignupForm form,
+    public String getUserDetail(
+    		@ModelAttribute SignupForm form,
         Model model, @PathVariable("id") String userId) {
-	  		// デバッグ
 	      System.out.println("userId = " + userId);
         model.addAttribute("contents", "login/userDetail :: userDetail_contents");
 
@@ -73,7 +73,6 @@ public class HomeUserController {
 
     @PostMapping(value = "/userDetail", params = "update")
     public String postUserDetailUpdate(@ModelAttribute SignupForm form, Model model) {
-    		// デバッグ
     		System.out.println("更新ボタンの処理");
 
         User user = new User();
@@ -97,7 +96,6 @@ public class HomeUserController {
 
     @PostMapping(value = "/userDetail", params = "delete")
     public String postUserDetailDelete(@ModelAttribute SignupForm form, Model model) {
-    		// デバッグ
         System.out.println("削除ボタンの処理");
 
         boolean result = userService.deleteOne(form.getUserId());
