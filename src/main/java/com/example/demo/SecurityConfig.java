@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login")
                 .usernameParameter("userId")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home", true);
+                .defaultSuccessUrl("/lendingStatus", true);
 
         http
 	          .logout()

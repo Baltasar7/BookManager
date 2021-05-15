@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.SignupForm;
 import com.example.demo.login.domain.model.User;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.UserService;
 
 @Controller
@@ -35,7 +37,11 @@ public class SignupController {
 		}
 
     @GetMapping("/signup")
-    public String getSignUp(@ModelAttribute SignupForm form, Model model) {
+    public String getSignUp(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute SignupForm form, Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/signup :: signup_contents");
 
       	departmentPulldown = initDepartmentPulldown();
@@ -45,12 +51,14 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String postSignUp(@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+    public String postSignUp(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
  	      BindingResult bindingResult,
 	      Model model) {
 
         if (bindingResult.hasErrors()) {
-            return getSignUp(form, model);
+            return getSignUp(userDetailsImpl, form, model);
        }
 
         // デバッグ

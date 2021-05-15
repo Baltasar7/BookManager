@@ -24,7 +24,7 @@ public class HomeLendingController {
     @Autowired
     LendingService lendingService;
 
-   @GetMapping("/lendingList")
+    @GetMapping("/lendingList")
     public String getLendingList(
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		Model model) {
@@ -33,12 +33,13 @@ public class HomeLendingController {
   	 		UserDetailsImpl userDatails = UserDetailsImpl.class.cast(auth.getPrincipal());
 
         model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/lendingList :: lendingList_contents");
 
         List<LendingView> lendingViewList = lendingService.selectAll();
         model.addAttribute("lendingList", lendingViewList);
 
-        int count = lendingService.count();
+        int count = lendingService.countAll();
         model.addAttribute("lendingListCount", count);
 
         return "login/homeLayout";

@@ -59,8 +59,22 @@ public class UserDetailsImpl implements UserDetails {
 			return true;
 		}
 
+		public String getUserId() {
+			return this.getUsername();
+		}
+
 		public String getName() {
 			return user.getUserName();
+		}
+
+		public String getRole() {
+			String role = grantedAuthorityList.get(0).toString();
+			if(role.equals("ROLE_ADMIN"))
+				return "管理者";
+			else if (role.equals("ROLE_GENERAL"))
+				return "一般";
+			else
+				return "----";
 		}
 
 }

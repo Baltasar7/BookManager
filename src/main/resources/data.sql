@@ -31,4 +31,8 @@ INSERT INTO m_book (title, author, publisher)
 VALUES('Java8', 'aaa', 'bbb');
 
 INSERT INTO m_lending (book_id, user_id)
-VALUES('2','112233')
+VALUES('1','112233');
+INSERT INTO m_lending (book_id, user_id)
+VALUES('2','123456');
+INSERT INTO m_lending (book_id, user_id)
+VALUES('3','123456');

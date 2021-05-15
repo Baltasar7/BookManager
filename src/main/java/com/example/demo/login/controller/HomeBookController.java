@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.Book;
 import com.example.demo.login.domain.model.BookRegistForm;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
 
 @Controller
@@ -25,7 +27,11 @@ public class HomeBookController {
     BookService bookService;
 
     @GetMapping("/bookList")
-    public String getBookList(Model model) {
+    public String getBookList(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookList :: bookList_contents");
 
         List<Book> bookList = bookService.selectAll();
@@ -39,11 +45,15 @@ public class HomeBookController {
 
     @GetMapping("/bookDetail/{id:.+}")
     public String getBookDetail(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		@ModelAttribute BookRegistForm form,
         Model model,
         @PathVariable("id") String bookId) {
 
-    	  // Debug
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
+
+        // Debug
 	      System.out.println("bookId = " + bookId);
         model.addAttribute("contents", "login/bookDetail :: bookDetail_contents");
 
@@ -59,7 +69,10 @@ public class HomeBookController {
     }
 
     @PostMapping(value = "/bookDetail", params = "update")
-    public String postBookDetailUpdate(@ModelAttribute BookRegistForm form, Model model) {
+    public String postBookDetailUpdate(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute BookRegistForm form,
+    		Model model) {
     		// Debug
     		System.out.println("更新ボタンの処理");
 
@@ -79,11 +92,13 @@ public class HomeBookController {
         } catch(DataAccessException e) {
             model.addAttribute("result", "更新失敗");
         }
-        return getBookList(model);
+        return getBookList(userDetailsImpl, model);
     }
 
     @PostMapping(value = "/bookDetail", params = "delete")
-    public String postBookDetailDelete(@ModelAttribute BookRegistForm form, Model model) {
+    public String postBookDetailDelete(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute BookRegistForm form, Model model) {
     		// Debug
         System.out.println("削除ボタンの処理");
 
@@ -94,7 +109,7 @@ public class HomeBookController {
         } else {
             model.addAttribute("result", "削除失敗");
         }
-        return getBookList(model);
+        return getBookList(userDetailsImpl, model);
     }
 
     @GetMapping("/bookList/csv")

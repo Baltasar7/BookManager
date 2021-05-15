@@ -36,8 +36,12 @@ public class LendingService {
         return result;
     }
 
-    public int count() {
-        return dao.count();
+    public int countAll() {
+        return dao.countAll();
+    }
+
+    public int countUser(Integer userId) {
+      return dao.countUser(userId);
     }
 
     public List<LendingView> selectAll() {
@@ -47,6 +51,10 @@ public class LendingService {
     public Lending selectOne(Integer lendingId) {
         return dao.selectOne(lendingId);
     }
+
+    public List<LendingView> selectUser(Integer userId) {
+      return dao.selectUser(userId);
+  }
 
     public boolean updateOne(Lending lending) {
         boolean result = false;

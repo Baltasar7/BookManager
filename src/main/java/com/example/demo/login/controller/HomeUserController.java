@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.SignupForm;
 import com.example.demo.login.domain.model.User;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.UserService;
 
 @Controller
@@ -38,7 +40,11 @@ public class HomeUserController {
 	  }
 
     @GetMapping("/userList")
-    public String getUserList(Model model) {
+    public String getUserList(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/userList :: userList_contents");
 
         List<User> userList = userService.selectAll();
@@ -52,9 +58,14 @@ public class HomeUserController {
 
     @GetMapping("/userDetail/{id:.+}")
     public String getUserDetail(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		@ModelAttribute SignupForm form,
         Model model, @PathVariable("id") String userId) {
-	      System.out.println("userId = " + userId);
+
+    	  model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
+
+        //System.out.println("userId = " + userId);
         model.addAttribute("contents", "login/userDetail :: userDetail_contents");
 
     		departmentPulldown = initDepartmentPulldown();
@@ -72,7 +83,9 @@ public class HomeUserController {
     }
 
     @PostMapping(value = "/userDetail", params = "update")
-    public String postUserDetailUpdate(@ModelAttribute SignupForm form, Model model) {
+    public String postUserDetailUpdate(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute SignupForm form, Model model) {
     		System.out.println("更新ボタンの処理");
 
         User user = new User();
@@ -91,11 +104,13 @@ public class HomeUserController {
         } catch(DataAccessException e) {
             model.addAttribute("result", "更新失敗");
         }
-        return getUserList(model);
+        return getUserList(userDetailsImpl, model);
     }
 
     @PostMapping(value = "/userDetail", params = "delete")
-    public String postUserDetailDelete(@ModelAttribute SignupForm form, Model model) {
+    public String postUserDetailDelete(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute SignupForm form, Model model) {
         System.out.println("削除ボタンの処理");
 
         boolean result = userService.deleteOne(form.getUserId());
@@ -105,7 +120,7 @@ public class HomeUserController {
         } else {
             model.addAttribute("result", "削除失敗");
         }
-        return getUserList(model);
+        return getUserList(userDetailsImpl, model);
     }
 
     @GetMapping("/userList/csv")

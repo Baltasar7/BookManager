@@ -17,11 +17,25 @@
     </resultMap>
 
     <!-- 1件count -->
-    <select id="count" parameterType="int" resultType="int">
+    <select id="countAll" parameterType="int" resultType="int">
         SELECT
 						COUNT(*)
         FROM
             m_lending
+    </select>
+
+    <!-- 1User count -->
+    <select id="countUser" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_lending,
+            m_book,
+            m_user
+        WHERE
+            m_lending.book_id = m_book.book_id AND
+            m_lending.user_id = m_user.user_id AND
+            m_user.user_id = #{userId}
     </select>
 
     <!-- １件insert -->
@@ -36,16 +50,6 @@
             #{userId})
     </insert>
 
-    <!-- １件検索 -->
-    <select id="selectOne" parameterType="int" resultMap="lending">
-        SELECT
-            *
-        FROM
-            m_lending
-        WHERE
-            lending_id = #{lendingId}
-    </select>
-
     <!-- 全件検索 -->
     <select id="selectAll" resultMap="lendingView">
         SELECT
@@ -59,6 +63,32 @@
         WHERE
             m_lending.book_id = m_book.book_id AND
             m_lending.user_id = m_user.user_id
+    </select>
+
+    <!-- １件検索 -->
+    <select id="selectOne" parameterType="int" resultMap="lending">
+        SELECT
+            *
+        FROM
+            m_lending
+        WHERE
+            lending_id = #{lendingId}
+    </select>
+
+    <!-- 1User検索 -->
+    <select id="selectUser" parameterType="int" resultMap="lendingView">
+        SELECT
+            lending_id,
+            title,
+            user_name
+        FROM
+            m_lending,
+            m_book,
+            m_user
+        WHERE
+            m_lending.book_id = m_book.book_id AND
+            m_lending.user_id = m_user.user_id AND
+            m_user.user_id = #{userId}
     </select>
 
     <!-- １件更新 -->

@@ -1,6 +1,7 @@
 package com.example.demo.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.login.domain.model.Book;
 import com.example.demo.login.domain.model.BookRegistForm;
 import com.example.demo.login.domain.model.GroupOrder;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
 
 @Controller
@@ -20,20 +22,25 @@ public class BookRegistController {
     private BookService bookService;
 
     @GetMapping("/bookRegist")
-    public String getBookRegist(@ModelAttribute BookRegistForm form, Model model) {
+    public String getBookRegist(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute BookRegistForm form, Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookRegist :: bookRegist_contents");
         return "login/homeLayout";
     }
 
     @PostMapping("/bookRegist")
     public String postBookRegist(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		@ModelAttribute @Validated(GroupOrder.class) BookRegistForm form,
  	      BindingResult bindingResult,
 	      Model model) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("bindingResult hasErrors() true");
-            return getBookRegist(form, model);
+            return getBookRegist(userDetailsImpl, form, model);
        }
 
         // Debug
