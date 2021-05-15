@@ -15,7 +15,6 @@
     <title>Home</title>
 </head>
 <body>
-    <!-- ===== ヘッダー（ナビゲーションバー） =====  -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -24,33 +23,39 @@
             <form method="post" th:action="@{/logout}">
                 <button class="btn btn-link pull-right navbar-brand" type="submit">ログアウト</button>
             </form>
+            <span class="navbar-text pull-right" th:text="'User：' + ${userName}"></span>>
+            <span class="navbar-text pull-right" th:text="'Role：' + ${role}"></span>>
         </div>
     </nav>
-    <!-- ===== サイドバー ===== -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2 sidebar">
                 <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation">
+                        <a th:href="@{'/lendingStatus'}">貸出状況</a>
+                    </li>
+                    <li role="presentation">
+                        <a th:href="@{'/bookList'}">書籍一覧</a>
+                    </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/userList'}">ユーザ管理</a>
+                        <hr>
                     </li>
-                    <li role="presentation">
-                        <a th:href="@{'/bookList'}">書籍管理</a>
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/lendingList'}">貸出一覧</a>
                     </li>
-                    <li role="presentation">
-                        <a th:href="@{'/lendingList'}">貸出管理</a>
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/bookRegist'}">　　書籍追加</a>
+                    </li>
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/userList'}">ユーザ一覧</a>
                     </li>
                      <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/signup'}">ユーザ追加</a>
-                    </li>
-                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/bookRegist'}">書籍追加</a>
+                        <a th:href="@{'/signup'}">　　ユーザ追加</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <!-- ===== コンテンツ ===== -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-2 main">

@@ -1,8 +1,5 @@
 package com.example.demo;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,14 +12,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+/*
+		@Autowired
     private DataSource dataSource;
-
+*/
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+/*
     private static final String USER_SQL = "SELECT"
             + " user_id,"
             + " password,"
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             + " m_user"
             + " WHERE"
             + " user_id = ?";
-
+*/
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/webjars/∗∗", "/css/∗∗");
@@ -63,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login")
                 .usernameParameter("userId")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home", true);
+                .defaultSuccessUrl("/lendingStatus", true);
 
         http
 	          .logout()

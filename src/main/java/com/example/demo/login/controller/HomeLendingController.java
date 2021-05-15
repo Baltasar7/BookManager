@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.login.domain.model.LendingView;
+import com.example.demo.login.domain.model.UserDetailsImpl;
 //import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.service.LendingService;
 
@@ -20,14 +24,22 @@ public class HomeLendingController {
     @Autowired
     LendingService lendingService;
 
-   @GetMapping("/lendingList")
-    public String getLendingList(Model model) {
+    @GetMapping("/lendingList")
+    public String getLendingList(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		Model model) {
+  	 		// Debug
+  	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+  	 		UserDetailsImpl userDatails = UserDetailsImpl.class.cast(auth.getPrincipal());
+
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/lendingList :: lendingList_contents");
 
         List<LendingView> lendingViewList = lendingService.selectAll();
         model.addAttribute("lendingList", lendingViewList);
 
-        int count = lendingService.count();
+        int count = lendingService.countAll();
         model.addAttribute("lendingListCount", count);
 
         return "login/homeLayout";
