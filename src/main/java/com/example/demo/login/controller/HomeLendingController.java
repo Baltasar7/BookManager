@@ -1,19 +1,22 @@
 package com.example.demo.login.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.login.domain.model.GroupOrder;
+import com.example.demo.login.domain.model.Lending;
+import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.model.LendingView;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 //import com.example.demo.login.domain.model.LendingRegistForm;
@@ -29,8 +32,8 @@ public class HomeLendingController {
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		Model model) {
   	 		// Debug
-  	 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-  	 		UserDetailsImpl userDatails = UserDetailsImpl.class.cast(auth.getPrincipal());
+  	 		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+  	 		//UserDetailsImpl userDatails = UserDetailsImpl.class.cast(auth.getPrincipal());
 
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
@@ -45,37 +48,45 @@ public class HomeLendingController {
         return "login/homeLayout";
     }
 
-	/*    @GetMapping("/lendingDetail/{id:.+}")
-	  public String getLendingDetail(
+    @GetMapping("/lendingEdit/{id:.+}")
+	  public String getLendingEdit(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
 	  		@ModelAttribute LendingRegistForm form,
 	      Model model,
 	      @PathVariable("id") String lendingId) {
 
-	  	  // Debug
-		      System.out.println("lendingId = " + lendingId);
-	      model.addAttribute("contents", "login/lendingDetail :: lendingDetail_contents");
+	      model.addAttribute("userName", userDetailsImpl.getName());
+	      model.addAttribute("role", userDetailsImpl.getRole());
+	      model.addAttribute("contents", "login/lendingEdit :: lendingEdit_contents");
 
 	      if (lendingId != null && lendingId.length() > 0) {
 	          Lending lending = lendingService.selectOne(Integer.parseInt(lendingId));
 	          form.setLendingId(lending.getLendingId().toString());
-	          form.setTitle(lending.getTitle());
-	          form.setAuthor(lending.getAuthor());
-	          form.setPublisher(lending.getPublisher());
+	          form.setBookId(lending.getBookId().toString());
+	          form.setUserId(lending.getUserId());
 	          model.addAttribute("LendingRegistForm", form);
 	      }
 	      return "login/homeLayout";
 	  }
 
-	  @PostMapping(value = "/lendingDetail", params = "update")
-	  public String postLendingDetailUpdate(@ModelAttribute LendingRegistForm form, Model model) {
-	  		// Debug
-	  		System.out.println("更新ボタンの処理");
+	  @PostMapping(value = "/lendingEdit", params = "update")
+	  public String postLendingEditUpdate(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	  		@ModelAttribute @Validated(GroupOrder.class) LendingRegistForm form,
+ 	      BindingResult bindingResult,
+	  		Model model) {
+
+	      if (bindingResult.hasErrors()) {
+	        return getLendingEdit(userDetailsImpl, form, model, form.getLendingId());
+	      }
+
+//	      model.addAttribute("userName", userDetailsImpl.getName());
+//	      model.addAttribute("role", userDetailsImpl.getRole());
 
 	      Lending lending = new Lending();
 	      lending.setLendingId(Integer.parseInt(form.getLendingId()));
-	      lending.setTitle(form.getTitle());
-	      lending.setAuthor(form.getAuthor());
-	      lending.setPublisher(form.getPublisher());
+	      lending.setBookId(Integer.parseInt(form.getBookId()));
+	      lending.setUserId(form.getUserId());
 
 	      try {
 	          boolean result = lendingService.updateOne(lending);
@@ -83,28 +94,82 @@ public class HomeLendingController {
 	              model.addAttribute("result", "更新成功");
 	          } else {
 	              model.addAttribute("result", "更新失敗");
+	    	        return getLendingEdit(userDetailsImpl, form, model, form.getLendingId());
 	          }
 	      } catch(DataAccessException e) {
-	          model.addAttribute("result", "更新失敗");
+	          model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
+		        return getLendingEdit(userDetailsImpl, form, model, form.getLendingId());
 	      }
-	      return getLendingList(model);
+	      return getLendingList(userDetailsImpl, model);
 	  }
 
-	  @PostMapping(value = "/lendingDetail", params = "delete")
-	  public String postLendingDetailDelete(@ModelAttribute LendingRegistForm form, Model model) {
-	  		// Debug
-	      System.out.println("削除ボタンの処理");
+	  @PostMapping(value = "/lendingEdit", params = "delete")
+	  public String postLendingEditDelete(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	  		@ModelAttribute LendingRegistForm form,
+ 	      BindingResult bindingResult,
+	  		Model model) {
 
-	      boolean result = lendingService.deleteOne(Integer.parseInt(form.getLendingId()));
+//	      model.addAttribute("userName", userDetailsImpl.getName());
+//	      model.addAttribute("role", userDetailsImpl.getRole());
 
-	      if (result == true) {
-	          model.addAttribute("result", "削除成功");
-	      } else {
-	          model.addAttribute("result", "削除失敗");
+	      try {
+		      boolean result = lendingService.deleteOne(Integer.parseInt(form.getLendingId()));
+		      if (result == true) {
+              model.addAttribute("result", "削除成功");
+		      } else {
+              model.addAttribute("result", "削除失敗");
+    	        return getLendingEdit(userDetailsImpl, form, model, form.getBookId());
+		      }
+	      } catch(DataAccessException e) {
+		        model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
+		        return getLendingEdit(userDetailsImpl, form, model, form.getBookId());
 	      }
-	      return getLendingList(model);
+	      return getLendingList(userDetailsImpl, model);
 	  }
-	*/
+
+    @GetMapping("/lendingRegist")
+    public String getLendingRegist(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute LendingRegistForm form,
+    		Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
+        model.addAttribute("contents", "login/lendingRegist :: lendingRegist_contents");
+        return "login/homeLayout";
+    }
+
+    @PostMapping("/lendingRegist")
+    public String postLendingRegist(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute @Validated(GroupOrder.class) LendingRegistForm form,
+ 	      BindingResult bindingResult,
+	      Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return getLendingRegist(userDetailsImpl, form, model);
+       }
+
+        Lending lending = new Lending();
+        lending.setBookId(Integer.valueOf(form.getBookId()));
+        lending.setUserId(form.getUserId());
+
+        try {
+				    boolean result = lendingService.insert(lending);
+				    if (result == true) {
+	              model.addAttribute("result", "追加成功");
+		            return getLendingList(userDetailsImpl, model);
+				    } else {
+	              model.addAttribute("result", "追加失敗");
+		            return getLendingRegist(userDetailsImpl, form, model);
+				    }
+        } catch(DataAccessException e) {
+            model.addAttribute("result", "指定したIDが存在しない為、追加失敗");
+            return getLendingRegist(userDetailsImpl, form, model);
+        }
+    }
+
+/*
     @GetMapping("/lendingList/csv")
     public ResponseEntity<byte[]> getLendingListCsv(Model model) {
         lendingService.lendingCsvOut();
@@ -122,4 +187,5 @@ public class HomeLendingController {
 
         return new ResponseEntity<>(bytes, header, HttpStatus.OK);
     }
+*/
 }

@@ -41,16 +41,22 @@
                         <hr>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/lendingList'}">貸出一覧</a>
+                        <a th:href="@{'/bookList'}">書籍管理</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/bookRegist'}">　　書籍追加</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/userList'}">ユーザ一覧</a>
+                        <a th:href="@{'/userList'}">ユーザ管理</a>
                     </li>
-                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/signup'}">　　ユーザ追加</a>
+                    </li>
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/lendingList'}">貸出管理</a>
+                    </li>
+                    <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/lendingRegist'}">　　貸出追加</a>
                     </li>
                 </ul>
             </div>

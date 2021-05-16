@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"s>
 <head>
     <meta charset="UTF-8"></meta>
 </head>
@@ -53,8 +54,11 @@
 				                    </td>
 				                </tr>
                     </table>
-                    <button class="btn btn-primary btn-lg pull-right" type="submit" name="update">更新</button>
-                    <button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button>
+                    <div  role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <button class="btn btn-primary btn-lg" type="submit" name="update">更新</button>
+                        <button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button><br/>
+                        <label class="text-info" th:text="${result}">結果表示</label>
+                    </div>
                 </form>
             </div>
         </div>

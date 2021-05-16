@@ -17,7 +17,7 @@
         <form method="post" th:action="@{/bookRegist}" th:object="${bookRegistForm}">
             <table class="table table-bordered table-hover">
                 <tr>
-                    <th class="active col-sm-3">ID</th>
+                    <th class="active col-sm-3">書籍ID</th>
                     <td>
                         <div class="form-group">
                             <input type="text" class="form-control" readonly="readonly" />
@@ -29,6 +29,7 @@
                     <td>
                        <div class="form-group">
                             <input type="text" class="form-control" th:field="*{title}" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title error</span>
                         </div>
                     </td>
                 </tr>
@@ -37,6 +38,7 @@
                     <td>
                         <div class="form-group">
                             <input type="text" class="form-control" th:field="*{author}" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">author error</span>
                         </div>
                     </td>
                 </tr>
@@ -45,6 +47,7 @@
                     <td>
                         <div class="form-group">
                             <input type="text" class="form-control" th:field="*{publisher}" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">publisher error</span>
                         </div>
                     </td>
                 </tr>
