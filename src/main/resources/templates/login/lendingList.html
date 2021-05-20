@@ -5,7 +5,6 @@
     <meta charset="UTF-8"></meta>
 </head>
 <body>
-    <!-- コンテンツ部分 -->
     <div th:fragment="lendingList_contents">
         <div class="page-header">
             <h1>貸出一覧</h1>
@@ -15,17 +14,15 @@
                 <th class="info col-sm-2">貸出ID</th>
                 <th class="info col-sm-2">タイトル</th>
                 <th class="info col-sm-2">ユーザー</th>
-<!--            <th class="info col-sm-2"></th> -->
+								<th class="info col-sm-2"></th>
             </tr>
             <tr th:each="lending : ${lendingList}">
                 <td th:text="${lending.lendingId}"></td>
                 <td th:text="${lending.title}"></td>
                 <td th:text="${lending.userName}"></td>
-<!--
                 <td>
-                   <a class="btn btn-primary" th:href="@{'/lendingDetail/' + ${lending.lendingId}}">詳細</a>
+                   <a class="btn btn-primary" th:href="@{'/lendingEdit/' + ${lending.lendingId}}">詳細</a>
                 </td>
--->
             </tr>
         </table>
         <label th:text=" '合計：' + ${lendingListCount} + '件' "></label><br/>

@@ -41,11 +41,9 @@
     <!-- １件insert -->
     <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Lending">
         INSERT INTO m_lending (
-            lending_id,
             book_id,
             user_id)
         VALUES (
-            #{lendingId},
             #{bookId},
             #{userId})
     </insert>

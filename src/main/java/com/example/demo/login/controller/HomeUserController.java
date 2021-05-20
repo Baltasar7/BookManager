@@ -1,23 +1,22 @@
 package com.example.demo.login.controller;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.SignupForm;
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.model.UserDetailsImpl;
@@ -27,7 +26,6 @@ import com.example.demo.login.domain.service.UserService;
 public class HomeUserController {
     @Autowired
     UserService userService;
-
 	  private Map<Integer, String> departmentPulldown;
 
 	  private Map<Integer, String> initDepartmentPulldown() {
@@ -85,8 +83,13 @@ public class HomeUserController {
     @PostMapping(value = "/userDetail", params = "update")
     public String postUserDetailUpdate(
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute SignupForm form, Model model) {
-    		System.out.println("更新ボタンの処理");
+    		@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+ 	      BindingResult bindingResult,
+    		Model model) {
+
+	      if (bindingResult.hasErrors()) {
+	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+	      }
 
         User user = new User();
         user.setUserId(form.getUserId());
@@ -95,14 +98,16 @@ public class HomeUserController {
         user.setDepartment(form.getDepartment());
 
         try {
-            boolean result = userService.updateOne(user);
-            if (result == true) {
+        		boolean result = userService.updateOne(user);
+			      if (result == true) {
                 model.addAttribute("result", "更新成功");
-            } else {
-                model.addAttribute("result", "更新失敗");
-            }
+			      } else {
+			      		model.addAttribute("result", "更新失敗");
+				        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+			      }
         } catch(DataAccessException e) {
-            model.addAttribute("result", "更新失敗");
+        		model.addAttribute("result", "更新失敗");
+  	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
         }
         return getUserList(userDetailsImpl, model);
     }
@@ -110,19 +115,74 @@ public class HomeUserController {
     @PostMapping(value = "/userDetail", params = "delete")
     public String postUserDetailDelete(
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute SignupForm form, Model model) {
-        System.out.println("削除ボタンの処理");
+    		@ModelAttribute SignupForm form,
+ 	      BindingResult bindingResult,
+    		Model model) {
 
-        boolean result = userService.deleteOne(form.getUserId());
-
-        if (result == true) {
-            model.addAttribute("result", "削除成功");
-        } else {
-            model.addAttribute("result", "削除失敗");
+        try {
+            boolean result = userService.deleteOne(form.getUserId());
+				    if (result == true) {
+	              model.addAttribute("result", "削除成功");
+				    } else {
+	              model.addAttribute("result", "削除失敗");
+	    	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+				    }
+        } catch(DataAccessException e) {
+            model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
+  	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
         }
         return getUserList(userDetailsImpl, model);
     }
 
+    @GetMapping("/signup")
+    public String getSignUp(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute SignupForm form,
+    		Model model) {
+        model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("role", userDetailsImpl.getRole());
+        model.addAttribute("contents", "login/signup :: signup_contents");
+
+      	departmentPulldown = initDepartmentPulldown();
+      	model.addAttribute("departmentPulldown", departmentPulldown);
+
+        return "login/homeLayout";
+    }
+
+    @PostMapping("/signup")
+    public String postSignUp(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    		@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+ 	      BindingResult bindingResult,
+	      Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return getSignUp(userDetailsImpl, form, model);
+       }
+
+        User user = new User();
+        user.setUserId(form.getUserId());
+        user.setPassword(form.getPassword());
+        user.setUserName(form.getUserName());
+        user.setDepartment(form.getDepartment());
+        user.setRole("ROLE_GENERAL");
+
+        try {
+            boolean result = userService.insert(user);
+				    if (result == true) {
+	              model.addAttribute("result", "追加成功");
+		            return getUserList(userDetailsImpl, model);
+				    } else {
+	              model.addAttribute("result", "追加失敗");
+		            return getSignUp(userDetailsImpl, form, model);
+				    }
+        } catch(DataAccessException e) {
+            model.addAttribute("result", "追加失敗");
+            return getSignUp(userDetailsImpl, form, model);
+        }
+    }
+
+/*
     @GetMapping("/userList/csv")
     public ResponseEntity<byte[]> getUserListCsv(Model model) {
         userService.userCsvOut();
@@ -140,4 +200,5 @@ public class HomeUserController {
 
         return new ResponseEntity<>(bytes, header, HttpStatus.OK);
     }
+*/
 }

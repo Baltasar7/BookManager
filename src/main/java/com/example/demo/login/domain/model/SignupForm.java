@@ -9,20 +9,19 @@ import lombok.Data;
 
 @Data
 public class SignupForm {
-
 		@NotBlank(groups = ValidGroup1.class)
     @Pattern(regexp = "^[0-9]+$", groups = ValidGroup2.class)
     @Length(min = 6, max = 6, groups = ValidGroup3.class)
-    private String userId; // ユーザーID
+    private String userId;
 
     @NotBlank(groups = ValidGroup1.class)
     @Pattern(regexp = "^[a-zA-Z0-9]+$", groups = ValidGroup2.class)
     @Length(min = 8, max = 32, groups = ValidGroup3.class)
-    private String password; // パスワード
+    private String password;
 
     @NotBlank(groups = ValidGroup1.class)
-    private String userName; // ユーザー名
+    private String userName;
 
     @NotBlank(groups = ValidGroup1.class)
-    private String department; // 所属
+    private String department;
 }
