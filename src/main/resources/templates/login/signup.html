@@ -12,7 +12,7 @@
 <body>
     <div class="col-sm-5" th:fragment="signup_contents">
         <div class="page-header">
-            <h1>ユーザー登録画面</h1>
+            <h1>ユーザ登録画面</h1>
         </div>
         <form method="post" th:action="@{/signup}" th:object="${signupForm}">
             <table class="table table-bordered table-hover">
@@ -35,7 +35,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="active">ユーザー名</th>
+                    <th class="active">ユーザ名</th>
                     <td>
                         <div class="form-group" th:classappend="${#fields.hasErrors('userName')} ? 'has-error'">
                             <input type="text" class="form-control" th:field="*{userName}" />
@@ -57,7 +57,7 @@
                     </td>
                 </tr>
             </table>
-            <button class="btn btn-primary" type="submit">ユーザー登録</button>
+            <button class="btn btn-primary" type="submit">ユーザ登録</button>
         </form>
     </div>
 </body>

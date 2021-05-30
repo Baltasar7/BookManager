@@ -19,5 +19,5 @@ public interface LendingMapper {
   public List<LendingView> selectUser(Integer userId) throws DataAccessException;
   public int updateOne(Lending lending) throws DataAccessException;
   public int deleteOne(Integer lendingId) throws DataAccessException;
-  public void lendingCsvOut() throws DataAccessException;
+//  public void lendingCsvOut() throws DataAccessException;
 }

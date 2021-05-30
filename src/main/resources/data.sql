@@ -19,20 +19,31 @@ INSERT INTO m_book (title, author, publisher)
 VALUES('Java2', 'aaa', 'bbb');
 INSERT INTO m_book (title, author, publisher)
 VALUES('Java3', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java4', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java5', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java6', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java7', 'aaa', 'bbb');
-INSERT INTO m_book (title, author, publisher)
-VALUES('Java8', 'aaa', 'bbb');
 
-INSERT INTO m_lending (book_id, user_id)
-VALUES('1','112233');
-INSERT INTO m_lending (book_id, user_id)
-VALUES('2','123456');
-INSERT INTO m_lending (book_id, user_id)
-VALUES('3','123456');
+
+INSERT INTO m_stock (book_id, state)
+VALUES('1', 'lending');
+INSERT INTO m_stock (book_id, state)
+VALUES('1', 'stock');
+INSERT INTO m_stock (book_id, state)
+VALUES('2', 'lending');
+INSERT INTO m_stock (book_id, state)
+VALUES('2', 'stock');
+INSERT INTO m_stock (book_id, state)
+VALUES('3', 'stock');
+INSERT INTO m_stock (book_id, state)
+VALUES('3', 'stock');
+INSERT INTO m_stock (book_id, state)
+VALUES('4', 'lending');
+INSERT INTO m_stock (book_id, state)
+VALUES('5', 'stock');
+INSERT INTO m_stock (book_id, state)
+VALUES('6', 'reserve');
+
+
+INSERT INTO m_lending (stock_id, user_id)
+VALUES('1', '112233');
+INSERT INTO m_lending (stock_id, user_id)
+VALUES('3', '123456');
+INSERT INTO m_lending (stock_id, user_id)
+VALUES('7', '123456');

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.login.domain.repository.mybatis.StockMapper">
+
+    <resultMap type="com.example.demo.login.domain.model.Stock" id="stock">
+        <id column="stock_id" property="stockId" />
+        <result column="book_id" property="bookId" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <select id="count" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_stock
+    </select>
+
+    <select id="getStockCount" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_stock
+        WHERE
+            book_id = #{book_id}
+    </select>
+
+    <select id="getRestCount" parameterType="int" resultType="int">
+        SELECT
+						COUNT(*)
+        FROM
+            m_stock
+        WHERE
+            book_id = #{book_id} AND
+            state = 'stock'
+    </select>
+
+    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Stock">
+        INSERT INTO m_stock (
+            book_id,
+            state,
+        VALUES (
+            #{book_id},
+            #{state})
+    </insert>
+
+    <select id="selectOne" parameterType="int" resultMap="stock">
+        SELECT
+            *
+        FROM
+            m_stock
+        WHERE
+            stock_id = #{stockId}
+    </select>
+
+    <select id="selectAll" resultMap="stock">
+        SELECT
+            *
+        FROM
+            m_stock
+    </select>
+
+    <update id="updateOne" parameterType="com.example.demo.login.domain.model.Stock">
+        UPDATE m_stock
+        SET
+            book_id = #{book_id},
+            state = #{state}
+        WHERE
+            stock_id = #{stockId}
+    </update>
+
+    <delete id="deleteOne" parameterType="int">
+        DELETE FROM m_stock WHERE stock_id = #{stockId}
+    </delete>
+</mapper>

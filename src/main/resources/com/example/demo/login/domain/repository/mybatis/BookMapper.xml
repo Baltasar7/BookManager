@@ -4,15 +4,22 @@
 
 <mapper namespace="com.example.demo.login.domain.repository.mybatis.BookMapper">
 
-    <!-- マッピング定義 -->
     <resultMap type="com.example.demo.login.domain.model.Book" id="book">
         <id column="book_id" property="bookId" />
         <result column="title" property="title" />
         <result column="author" property="author" />
         <result column="publisher" property="publisher" />
     </resultMap>
-
-    <!-- 1件count -->
+<!--
+    <resultMap type="com.example.demo.login.domain.model.Book" id="book">
+        <id column="book_id" property="bookId" />
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="publisher" property="publisher" />
+        <result column="stock" property="stock" />
+        <result column="rest" property="rest" />
+    </resultMap>
+-->
     <select id="count" parameterType="int" resultType="int">
         SELECT
 						COUNT(*)
@@ -20,7 +27,6 @@
             m_book
     </select>
 
-    <!-- １件insert -->
     <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Book">
         INSERT INTO m_book (
             title,
@@ -32,7 +38,6 @@
             #{publisher})
     </insert>
 
-    <!-- １件検索 -->
     <select id="selectOne" parameterType="int" resultMap="book">
         SELECT
             *
@@ -42,7 +47,6 @@
             book_id = #{bookId}
     </select>
 
-    <!-- 全件検索 -->
     <select id="selectAll" resultMap="book">
         SELECT
             *
@@ -50,7 +54,6 @@
             m_book
     </select>
 
-    <!-- １件更新 -->
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Book">
         UPDATE m_book
         SET
@@ -60,8 +63,23 @@
         WHERE
             book_id = #{bookId}
     </update>
+<!--
+    <update id="restIncrement" parameterType="com.example.demo.login.domain.model.Book">
+        UPDATE m_book
+        SET
+            rest = #{rest + 1}
+        WHERE
+            book_id = #{bookId}
+    </update>
 
-    <!-- １件削除 -->
+    <update id="restDecrement" parameterType="com.example.demo.login.domain.model.Book">
+        UPDATE m_book
+        SET
+            rest = #{rest - 1}
+        WHERE
+            book_id = #{bookId}
+    </update>
+-->
     <delete id="deleteOne" parameterType="int">
         DELETE FROM m_book WHERE book_id = #{bookId}
     </delete>

@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Lending {
     private Integer lendingId;
-    private Integer bookId;
+    private Integer stockId;
 		private String userId;
 }

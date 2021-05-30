@@ -16,12 +16,19 @@ CREATE TABLE IF NOT EXISTS m_book (
     UNIQUE(title)
 );
 
-CREATE TABLE IF NOT EXISTS m_lending (
-    lending_id INTEGER NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS m_stock (
+    stock_id INTEGER NOT NULL AUTO_INCREMENT,
     book_id INTEGER NOT NULL,
-    user_id VARCHAR(6) NOT NULL,
-    PRIMARY KEY(lending_id),
-    FOREIGN KEY(book_id) REFERENCES m_book(book_id),
-    FOREIGN KEY(user_id) REFERENCES m_user(user_id)
+    state VARCHAR(16) NOT NULL,
+    PRIMARY KEY(stock_id),
+    FOREIGN KEY(book_id) REFERENCES m_book(book_id)
 );
 
+CREATE TABLE IF NOT EXISTS m_lending (
+    lending_id INTEGER NOT NULL AUTO_INCREMENT,
+    stock_id INTEGER NOT NULL,
+    user_id VARCHAR(6) NOT NULL,
+    PRIMARY KEY(lending_id),
+    FOREIGN KEY(stock_id) REFERENCES m_stock(stock_id),
+    FOREIGN KEY(user_id) REFERENCES m_user(user_id)
+);

@@ -8,6 +8,9 @@ public class Book {
     private String title;
     private String author;
     private String publisher;
+    private Integer stock;
+    private Integer rest;
+
 //    private Date releaseDate;
 //    private String format;
 //    private int pageCount;

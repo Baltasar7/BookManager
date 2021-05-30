@@ -19,11 +19,14 @@ import com.example.demo.login.domain.model.BookRegistForm;
 import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
+import com.example.demo.login.domain.service.StockService;
 
 @Controller
 public class HomeBookController {
     @Autowired
     BookService bookService;
+    @Autowired
+    StockService stockService;
 
     @GetMapping("/bookList")
     public String getBookList(
@@ -34,6 +37,11 @@ public class HomeBookController {
         model.addAttribute("contents", "login/bookList :: bookList_contents");
 
         List<Book> bookList = bookService.selectAll();
+        for(Book book: bookList) {
+        	book.setStock(stockService.getStockCount(book.getBookId()));
+        	book.setRest(stockService.getRestCount(book.getBookId()));
+        }
+
         model.addAttribute("bookList", bookList);
 
         int count = bookService.count();
@@ -59,6 +67,10 @@ public class HomeBookController {
             form.setTitle(book.getTitle());
             form.setAuthor(book.getAuthor());
             form.setPublisher(book.getPublisher());
+            form.setStock("2");
+            form.setRest("1");
+//            form.setStock(book.getStock().toString());
+//            form.setRest(book.getRest().toString());
             model.addAttribute("BookRegistForm", form);
         }
         return "login/homeLayout";
@@ -80,6 +92,8 @@ public class HomeBookController {
         book.setTitle(form.getTitle());
         book.setAuthor(form.getAuthor());
         book.setPublisher(form.getPublisher());
+//        book.setStock(Integer.parseInt(form.getStock()));
+//        book.setRest(Integer.parseInt(form.getRest()));
 
         try {
             boolean result = bookService.updateOne(book);
@@ -145,16 +159,18 @@ public class HomeBookController {
         book.setTitle(form.getTitle());
         book.setAuthor(form.getAuthor());
         book.setPublisher(form.getPublisher());
+//        book.setStock(Integer.parseInt(form.getStock()));
+//        book.setRest(Integer.parseInt(form.getRest()));
 
         try {
             boolean result = bookService.insert(book);
-				    if (result == true) {
-	              model.addAttribute("result", "追加成功");
-				        return getBookList(userDetailsImpl, model);
-				    } else {
-	              model.addAttribute("result", "追加失敗");
-		            return getBookRegist(userDetailsImpl, form, model);
-				    }
+						if (result == true) {
+						    model.addAttribute("result", "追加成功");
+						    return getBookList(userDetailsImpl, model);
+						} else {
+						    model.addAttribute("result", "追加失敗");
+						    return getBookRegist(userDetailsImpl, form, model);
+						}
         } catch(DataAccessException e) {
             model.addAttribute("result", "追加失敗");
             return getBookRegist(userDetailsImpl, form, model);

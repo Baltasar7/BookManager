@@ -1,14 +1,8 @@
 package com.example.demo.login.domain.service;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,13 +17,8 @@ import com.example.demo.login.domain.repository.mybatis.UserMapper;
 @Transactional
 @Service
 public class UserService implements UserDetailsService {
-
-//    @Autowired
-//    @Qualifier("UserDaoJdbcImpl")
-//    UserDao dao;
-
     @Autowired
-    UserMapper dao;
+    UserMapper mapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,7 +36,7 @@ public class UserService implements UserDetailsService {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
 
-        int rowNumber = dao.insertOne(user);
+        int rowNumber = mapper.insertOne(user);
         boolean result = false;
 
         if (rowNumber > 0) {
@@ -57,15 +46,15 @@ public class UserService implements UserDetailsService {
     }
 
     public int count() {
-        return dao.count();
+        return mapper.count();
     }
 
     public List<User> selectAll() {
-        return dao.selectAll();
+        return mapper.selectAll();
     }
 
     public User selectOne(String userId) {
-        return dao.selectOne(userId);
+        return mapper.selectOne(userId);
     }
 
     public boolean updateOne(User user) {
@@ -74,7 +63,7 @@ public class UserService implements UserDetailsService {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
 
-        int rowNumber = dao.updateOne(user);
+        int rowNumber = mapper.updateOne(user);
 
         if (rowNumber > 0) {
             result = true;
@@ -83,7 +72,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean deleteOne(String userId) {
-        int rowNumber = dao.deleteOne(userId);
+        int rowNumber = mapper.deleteOne(userId);
         boolean result = false;
 
         if (rowNumber > 0) {
@@ -91,9 +80,9 @@ public class UserService implements UserDetailsService {
         }
         return result;
     }
-
+/*
     public void userCsvOut() throws DataAccessException {
-        dao.userCsvOut();
+        mapper.userCsvOut();
     }
 
     public byte[] getFile(String fileName) throws IOException {
@@ -103,4 +92,5 @@ public class UserService implements UserDetailsService {
 
         return bytes;
     }
+*/
 }
