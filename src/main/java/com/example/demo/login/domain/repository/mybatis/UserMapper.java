@@ -15,5 +15,5 @@ public interface UserMapper {
   public List<User> selectAll() throws DataAccessException;
   public int updateOne(User user) throws DataAccessException;
   public int deleteOne(String userId) throws DataAccessException;
-  public void userCsvOut() throws DataAccessException;
+//  public void userCsvOut() throws DataAccessException;
 }

@@ -19,6 +19,7 @@ import com.example.demo.login.domain.model.Lending;
 import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.model.LendingView;
 import com.example.demo.login.domain.model.UserDetailsImpl;
+import com.example.demo.login.domain.service.BookService;
 //import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.service.LendingService;
 
@@ -26,6 +27,8 @@ import com.example.demo.login.domain.service.LendingService;
 public class HomeLendingController {
     @Autowired
     LendingService lendingService;
+    @Autowired
+    BookService bookService;
 
     @GetMapping("/lendingList")
     public String getLendingList(
@@ -62,7 +65,7 @@ public class HomeLendingController {
 	      if (lendingId != null && lendingId.length() > 0) {
 	          Lending lending = lendingService.selectOne(Integer.parseInt(lendingId));
 	          form.setLendingId(lending.getLendingId().toString());
-	          form.setBookId(lending.getBookId().toString());
+	          form.setStockId(lending.getStockId().toString());
 	          form.setUserId(lending.getUserId());
 	          model.addAttribute("LendingRegistForm", form);
 	      }
@@ -85,7 +88,7 @@ public class HomeLendingController {
 
 	      Lending lending = new Lending();
 	      lending.setLendingId(Integer.parseInt(form.getLendingId()));
-	      lending.setBookId(Integer.parseInt(form.getBookId()));
+	      lending.setStockId(Integer.parseInt(form.getStockId()));
 	      lending.setUserId(form.getUserId());
 
 	      try {
@@ -119,11 +122,11 @@ public class HomeLendingController {
               model.addAttribute("result", "削除成功");
 		      } else {
               model.addAttribute("result", "削除失敗");
-    	        return getLendingEdit(userDetailsImpl, form, model, form.getBookId());
+    	        return getLendingEdit(userDetailsImpl, form, model, form.getLendingId());
 		      }
 	      } catch(DataAccessException e) {
 		        model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
-		        return getLendingEdit(userDetailsImpl, form, model, form.getBookId());
+		        return getLendingEdit(userDetailsImpl, form, model, form.getLendingId());
 	      }
 	      return getLendingList(userDetailsImpl, model);
 	  }
@@ -151,7 +154,7 @@ public class HomeLendingController {
        }
 
         Lending lending = new Lending();
-        lending.setBookId(Integer.valueOf(form.getBookId()));
+        lending.setStockId(Integer.parseInt(form.getStockId()));
         lending.setUserId(form.getUserId());
 
         try {

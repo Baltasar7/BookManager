@@ -12,12 +12,14 @@
         <table class="table table-bordered table-hover table-striped">
             <tr>
                 <th class="info col-sm-2">貸出ID</th>
+                <th class="info col-sm-2">在庫ID</th>
                 <th class="info col-sm-2">タイトル</th>
-                <th class="info col-sm-2">ユーザー</th>
+                <th class="info col-sm-2">ユーザ名</th>
 								<th class="info col-sm-2"></th>
             </tr>
             <tr th:each="lending : ${lendingList}">
                 <td th:text="${lending.lendingId}"></td>
+                <td th:text="${lending.stockId}"></td>
                 <td th:text="${lending.title}"></td>
                 <td th:text="${lending.userName}"></td>
                 <td>

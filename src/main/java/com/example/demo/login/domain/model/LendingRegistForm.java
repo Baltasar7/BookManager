@@ -15,7 +15,7 @@ public class LendingRegistForm {
     @NotBlank(groups = ValidGroup1.class)
     @Pattern(regexp = "^[0-9]+$", groups = ValidGroup2.class)
     @Min(value = 1 , groups = ValidGroup3.class)
-    private String bookId;
+    private String stockId;
 
     @NotBlank(groups = ValidGroup1.class)
     @Pattern(regexp = "^[0-9]+$", groups = ValidGroup2.class)

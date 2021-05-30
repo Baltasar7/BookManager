@@ -1,14 +1,8 @@
 package com.example.demo.login.domain.service;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +13,11 @@ import com.example.demo.login.domain.repository.mybatis.LendingMapper;
 @Transactional
 @Service
 public class LendingService {
-
-//    @Autowired
-//    @Qualifier("LendingDaoJdbcImpl")
-//    LendingDao dao;
-
 		@Autowired
-		LendingMapper dao;
+		LendingMapper mapper;
 
     public boolean insert(Lending lending) {
-        int rowNumber = dao.insertOne(lending);
+        int rowNumber = mapper.insertOne(lending);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
@@ -37,28 +26,28 @@ public class LendingService {
     }
 
     public int countAll() {
-        return dao.countAll();
+        return mapper.countAll();
     }
 
     public int countUser(Integer userId) {
-      return dao.countUser(userId);
+      return mapper.countUser(userId);
     }
 
     public List<LendingView> selectAll() {
-        return dao.selectAll();
+        return mapper.selectAll();
     }
 
     public Lending selectOne(Integer lendingId) {
-        return dao.selectOne(lendingId);
+        return mapper.selectOne(lendingId);
     }
 
     public List<LendingView> selectUser(Integer userId) {
-      return dao.selectUser(userId);
+      return mapper.selectUser(userId);
   }
 
     public boolean updateOne(Lending lending) {
         boolean result = false;
-        int rowNumber = dao.updateOne(lending);
+        int rowNumber = mapper.updateOne(lending);
         if (rowNumber > 0) {
             result = true;
         }
@@ -66,16 +55,16 @@ public class LendingService {
     }
 
     public boolean deleteOne(Integer lendingId) {
-        int rowNumber = dao.deleteOne(lendingId);
+        int rowNumber = mapper.deleteOne(lendingId);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
         }
         return result;
     }
-
+/*
     public void lendingCsvOut() throws DataAccessException {
-        dao.lendingCsvOut();
+        mapper.lendingCsvOut();
     }
 
     public byte[] getFile(String fileName) throws IOException {
@@ -84,4 +73,5 @@ public class LendingService {
         byte[] bytes = Files.readAllBytes(p);
         return bytes;
     }
+*/
 }

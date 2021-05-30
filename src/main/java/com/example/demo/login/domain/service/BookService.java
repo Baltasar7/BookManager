@@ -1,14 +1,8 @@
 package com.example.demo.login.domain.service;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +12,11 @@ import com.example.demo.login.domain.repository.mybatis.BookMapper;
 @Transactional
 @Service
 public class BookService {
-
-//    @Autowired
-//    @Qualifier("BookDaoJdbcImpl")
-//    BookDao dao;
-
 		@Autowired
-		BookMapper dao;
+		BookMapper mapper;
 
     public boolean insert(Book book) {
-        int rowNumber = dao.insertOne(book);
+        int rowNumber = mapper.insertOne(book);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
@@ -36,37 +25,55 @@ public class BookService {
     }
 
     public int count() {
-        return dao.count();
+        return mapper.count();
     }
 
     public List<Book> selectAll() {
-        return dao.selectAll();
+        return mapper.selectAll();
     }
 
     public Book selectOne(Integer bookId) {
-        return dao.selectOne(bookId);
+        return mapper.selectOne(bookId);
     }
 
     public boolean updateOne(Book book) {
         boolean result = false;
-        int rowNumber = dao.updateOne(book);
+        int rowNumber = mapper.updateOne(book);
         if (rowNumber > 0) {
             result = true;
         }
         return result;
     }
+/*
+    public boolean restIncrement(Book book) {
+      boolean result = false;
+      int rowNumber = mapper.restIncrement(book);
+      if (rowNumber > 0) {
+          result = true;
+      }
+      return result;
+  }
 
+    public boolean restDecrement(Book book) {
+      boolean result = false;
+      int rowNumber = mapper.restDecrement(book);
+      if (rowNumber > 0) {
+          result = true;
+      }
+      return result;
+  }
+*/
     public boolean deleteOne(Integer bookId) {
-        int rowNumber = dao.deleteOne(bookId);
+        int rowNumber = mapper.deleteOne(bookId);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
         }
         return result;
     }
-
+/*
     public void bookCsvOut() throws DataAccessException {
-        dao.bookCsvOut();
+        mapper.bookCsvOut();
     }
 
     public byte[] getFile(String fileName) throws IOException {
@@ -75,4 +82,5 @@ public class BookService {
         byte[] bytes = Files.readAllBytes(p);
         return bytes;
     }
+*/
 }

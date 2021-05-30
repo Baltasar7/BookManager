@@ -12,6 +12,7 @@ public class LogAspct {
     /**
      * コントローラークラスのログ出力用アスペクト.
      */
+/*
     @Around("@within(org.springframework.stereotype.Controller)")
     public Object startLog(ProceedingJoinPoint jp) throws Throwable {
 
@@ -31,10 +32,11 @@ public class LogAspct {
             throw e;
         }
     }
-
+*/
     /**
      * Daoクラスのログ出力用アスペクト.
      */
+/*
     @Around("execution(* *..*.*UserDao*.*(..))")
     public Object daoLog(ProceedingJoinPoint jp) throws Throwable {
 
@@ -54,4 +56,5 @@ public class LogAspct {
             throw e;
         }
     }
+*/
 }

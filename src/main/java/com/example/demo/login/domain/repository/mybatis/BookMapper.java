@@ -14,6 +14,8 @@ public interface BookMapper {
   public Book selectOne(Integer bookId) throws DataAccessException;
   public List<Book> selectAll() throws DataAccessException;
   public int updateOne(Book book) throws DataAccessException;
+//  public int restIncrement(Book book) throws DataAccessException;
+//  public int restDecrement(Book book) throws DataAccessException;
   public int deleteOne(Integer bookId) throws DataAccessException;
-  public void bookCsvOut() throws DataAccessException;
+//  public void bookCsvOut() throws DataAccessException;
 }
