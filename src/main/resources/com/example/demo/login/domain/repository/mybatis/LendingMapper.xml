@@ -14,6 +14,7 @@
         <id column="stock_id" property="stockId" />
         <result column="title" property="title" />
         <result column="user_name" property="userName" />
+        <result column="state" property="state" />
     </resultMap>
 
     <select id="countAll" parameterType="int" resultType="int">
@@ -52,7 +53,8 @@
             lending_id,
             m_stock.stock_id,
             title,
-            user_name
+            user_name,
+            state
         FROM
             m_lending,
             m_stock,
@@ -78,7 +80,8 @@
             lending_id,
             m_stock.stock_id,
             title,
-            user_name
+            user_name,
+            state
         FROM
             m_lending,
             m_stock,

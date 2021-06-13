@@ -27,7 +27,7 @@
             m_book
     </select>
 
-    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Book">
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="bookId" parameterType="com.example.demo.login.domain.model.Book">
         INSERT INTO m_book (
             title,
             author,
@@ -36,6 +36,11 @@
             #{title},
             #{author},
             #{publisher})
+<!--
+        <selectKey resultType="int" keyProperty="bookId" order="AFTER">
+            select @@IDENTITY
+        </selectKey>
+-->
     </insert>
 
     <select id="selectOne" parameterType="int" resultMap="book">
@@ -83,4 +88,14 @@
     <delete id="deleteOne" parameterType="int">
         DELETE FROM m_book WHERE book_id = #{bookId}
     </delete>
+
+<!--
+    // MySQL
+    <select id="getAutoIncrement" parameterType="int" resultType="int">
+        SELECT
+            last_insert_id()
+        FROM
+            m_book
+    </select>
+-->
 </mapper>

@@ -14,6 +14,8 @@ import com.example.demo.login.domain.repository.mybatis.StockMapper;
 public class StockService {
 		@Autowired
 		StockMapper mapper;
+		@Autowired
+		LendingService lendingService;
 
     public boolean insert(Stock stock) {
         int rowNumber = mapper.insertOne(stock);
@@ -23,6 +25,11 @@ public class StockService {
         }
         return result;
     }
+
+    public boolean insert(
+    	int bookId, int stock, String state) {
+      return true;
+   }
 
     public int count() {
         return mapper.count();
@@ -61,7 +68,47 @@ public class StockService {
         }
         return result;
     }
-/*
+
+    public int applyBook(int userId, int bookId) {
+    	List<Stock> restItems = mapper.selectRestItems(bookId);
+    	if (restItems.isEmpty()) {
+    	  return -1;
+    	}
+    	Stock applyingItem = restItems.get(0);
+    	applyingItem.setState("applying");
+    	mapper.updateOne(applyingItem);
+    	lendingService.addLending(userId, applyingItem.getStockId());
+    	return applyingItem.getStockId();
+    }
+
+    public boolean applyLending(int stockId) {
+    	Stock stock = mapper.selectOne(stockId);
+    	if(stock.getState() != "applying") {
+    		return false;
+    	}
+    	stock.setState("lending");
+    	mapper.updateOne(stock);
+    	return true;
+    }
+
+    public boolean resetApplyLending(int stockId) {
+    	Stock stock = mapper.selectOne(stockId);
+    	if(stock.getState() != "applying") {
+    		return false;
+    	}
+    	stock.setState("stock");
+    	mapper.updateOne(stock);
+    	return true;
+    }
+
+    public boolean updateLendable(int stockId) {
+    	Stock stock = mapper.selectOne(stockId);
+    	stock.setState("stock");
+    	mapper.updateOne(stock);
+    	return true;
+    }
+
+    /*
     public void stockCsvOut() throws DataAccessException {
         mapper.stockCsvOut();
     }

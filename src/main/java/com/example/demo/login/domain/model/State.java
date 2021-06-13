@@ -4,7 +4,7 @@ public enum State {
 	STOCK, APPLYING, LENDING, RETURN, RESERVE, PENDING;
 
 /*
-	STOCK(0), APPLYING(1), LENDING(2), RETURN(3), RESERVE(4), PENDING(5);
+	STOCK(0), APPLYING(1), LENDING(2), RETURNING(3), RESERVE(4), PENDING(5);
 	private int stateNum;
 
 	State() { this.stateNum = 0; }

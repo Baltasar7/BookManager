@@ -2,6 +2,8 @@ package com.example.demo.login.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +24,7 @@ import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
 //import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.service.LendingService;
+import com.example.demo.login.domain.service.StockService;
 
 @Controller
 public class HomeLendingController {
@@ -29,6 +32,8 @@ public class HomeLendingController {
     LendingService lendingService;
     @Autowired
     BookService bookService;
+    @Autowired
+    StockService stockService;
 
     @GetMapping("/lendingList")
     public String getLendingList(
@@ -49,6 +54,42 @@ public class HomeLendingController {
         model.addAttribute("lendingListCount", count);
 
         return "login/homeLayout";
+    }
+
+    @PostMapping(value = "/lendingList", params = "apply")
+    public String postApplyLendingList(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        HttpServletRequest req,
+    		Model model) {
+	      try {
+	      	int stockId = Integer.parseInt(req.getParameter("apply"));
+	        if (stockService.applyLending(stockId)) {
+	            model.addAttribute("result", "承認成功");
+	        } else {
+	            model.addAttribute("result", "承認失敗、現在の状態は承認可能ではありません。");
+	        }
+	      } catch(DataAccessException e) {
+	          model.addAttribute("result", "承認失敗");
+	      }
+	      return getLendingList(userDetailsImpl, model);
+    }
+
+    @PostMapping(value = "/lendingList", params = "delete")
+    public String postDeleteLendingList(
+    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        HttpServletRequest req,
+    		Model model) {
+	      try {
+	      	int lendingId = Integer.parseInt(req.getParameter("delete"));
+	        if (lendingService.deleteLending(lendingId)) {
+	            model.addAttribute("result", "削除成功");
+	        } else {
+	            model.addAttribute("result", "削除失敗、現在の状態は削除可能ではありません。");
+	        }
+	      } catch(DataAccessException e) {
+	          model.addAttribute("result", "削除失敗");
+	      }
+	      return getLendingList(userDetailsImpl, model);
     }
 
     @GetMapping("/lendingEdit/{id:.+}")

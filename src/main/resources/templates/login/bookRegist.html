@@ -52,7 +52,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="active">在庫数</th>
+                    <th class="active">登録数</th>
                     <td>
                         <div class="form-group">
                             <input type="text" class="form-control" th:field="*{stock}" />
@@ -61,11 +61,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="active">残数</th>
+                    <th class="active">初期状態</th>
                     <td>
                         <div class="form-group">
-                            <input type="text" class="form-control" th:field="*{rest}" />
-                            <span class="text-danger" th:if="${#fields.hasErrors('rest')}" th:errors="*{rest}">rest error</span>
+                            <input type="text" class="form-control" th:field="*{state}"  readonly="readonly" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('state')}" th:errors="*{state}">state error</span>
                         </div>
                     </td>
                 </tr>
