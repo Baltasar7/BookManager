@@ -6,11 +6,11 @@
 </head>
 <body>
     <!-- コンテンツ部分 -->
-    <div th:fragment="bookList_contents">
+    <div th:fragment="bookApplyingList_contents">
         <div class="page-header">
             <h1>書籍一覧</h1>
         </div>
-        <form method="post" th:action="@{/bookList}">
+        <form method="post" th:action="@{/bookApplyingList}">
 	        <table class="table table-bordered table-hover table-striped">
 	            <tr>
 	                <th class="info col-sm-1">書籍ID</th>
@@ -20,8 +20,9 @@
 	                <th class="info col-sm-1">在庫数</th>
 	                <th class="info col-sm-1">残数</th>
 	                <th class="info col-sm-2"></th>
+	                <th class="info col-sm-2"></th>
 	            </tr>
-	            <tr th:each="book : ${bookList}">
+	            <tr th:each="book : ${bookApplyingList}">
 	                <td th:text="${book.bookId}"></td>
 	                <td th:text="${book.title}"></td>
 	                <td th:text="${book.author}"></td>
@@ -30,13 +31,14 @@
 	                <td th:text="${book.rest}"></td>
 	                <td>
 	                   <a class="btn btn-primary" th:href="@{'/bookDetail/' + ${book.bookId}}">詳細</a>
-	                   <span>　</span>
-	                   <button class="btn btn-primary" type="submit" name="apply" th:value="${book.bookId}">貸出申請</button>
+	                </td>
+	                <td>
+	                   <button class="btn btn-danger" type="submit" name="delete" th:value="${book.bookId}">貸出申請</button>
 	                </td>
 	            </tr>
 	        </table>
 	      </form>
-        <label th:text=" '合計：' + ${bookListCount} + '件' "></label><br/>
+        <label th:text=" '合計：' + ${bookApplyingListCount} + '件' "></label><br/>
         <label class="text-info" th:text="${result}">結果表示</label><br/>
     </div>
 </body>

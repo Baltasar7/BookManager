@@ -7,4 +7,11 @@ public class Lending {
     private Integer lendingId;
     private Integer stockId;
 		private String userId;
+
+		public Lending() {}
+
+		public Lending(String userId, int stockId) {
+			this.stockId = stockId;
+			this.userId = userId;
+		}
 }

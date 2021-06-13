@@ -23,7 +23,7 @@
         FROM
             m_stock
         WHERE
-            book_id = #{book_id}
+            book_id = #{bookId}
     </select>
 
     <select id="getRestCount" parameterType="int" resultType="int">
@@ -32,16 +32,25 @@
         FROM
             m_stock
         WHERE
-            book_id = #{book_id} AND
+            book_id = #{bookId} AND
             state = 'stock'
     </select>
 
     <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Stock">
         INSERT INTO m_stock (
             book_id,
-            state,
+            state)
         VALUES (
-            #{book_id},
+            #{bookId},
+            #{state})
+    </insert>
+
+    <insert id="insertOneByRegistBook">
+        INSERT INTO m_stock (
+            book_id,
+            state)
+        VALUES (
+            #{bookId},
             #{state})
     </insert>
 
@@ -61,10 +70,20 @@
             m_stock
     </select>
 
+    <select id="selectRestItems" resultMap="stock">
+        SELECT
+            *
+        FROM
+            m_stock
+        WHERE
+            book_id = #{bookId} AND
+            state = 'stock'
+    </select>
+
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Stock">
         UPDATE m_stock
         SET
-            book_id = #{book_id},
+            book_id = #{bookId},
             state = #{state}
         WHERE
             stock_id = #{stockId}
@@ -72,5 +91,9 @@
 
     <delete id="deleteOne" parameterType="int">
         DELETE FROM m_stock WHERE stock_id = #{stockId}
+    </delete>
+
+    <delete id="deleteBook" parameterType="int">
+        DELETE FROM m_stock WHERE book_id = #{bookId}
     </delete>
 </mapper>

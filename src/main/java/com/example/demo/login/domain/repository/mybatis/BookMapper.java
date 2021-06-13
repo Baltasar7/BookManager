@@ -17,5 +17,6 @@ public interface BookMapper {
 //  public int restIncrement(Book book) throws DataAccessException;
 //  public int restDecrement(Book book) throws DataAccessException;
   public int deleteOne(Integer bookId) throws DataAccessException;
+  public int getAutoIncrement() throws DataAccessException;
 //  public void bookCsvOut() throws DataAccessException;
 }

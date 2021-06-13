@@ -41,12 +41,15 @@
                         <hr>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{'/bookList'}">書籍管理</a>
+                        <a th:href="@{'/bookManageList'}">書籍管理</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/bookRegist'}">　　書籍追加</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/stockList'}">　　在庫一覧</a>
+                    </li>
+                     <li role="presentation" sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{'/userList'}">ユーザ管理</a>
                     </li>
                     <li role="presentation" sec:authorize="hasRole('ADMIN')">

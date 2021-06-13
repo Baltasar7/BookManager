@@ -12,7 +12,7 @@
                 <div class="page-header">
                     <h1>書籍詳細</h1>
                 </div>
-                <form method="post" th:action="@{/bookDetail}" th:object="${bookRegistForm}">
+                <form method="post" th:action="@{/bookDetail}" th:object="${bookDetailForm}">
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th class="active col-sm-2">ID</th>
@@ -62,7 +62,7 @@
 				                    <th class="active">残数</th>
 				                    <td>
 				                        <div class="form-group">
-				                            <input type="text" class="form-control" th:field="*{rest}" />
+				                            <input type="text" class="form-control" th:field="*{rest}"  readonly="readonly" />
 				                            <span class="text-danger" th:if="${#fields.hasErrors('rest')}" th:errors="*{rest}">rest error</span>
 				                        </div>
 				                    </td>

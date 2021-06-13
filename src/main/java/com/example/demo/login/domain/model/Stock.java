@@ -6,5 +6,13 @@ import lombok.Data;
 public class Stock {
 	  private Integer stockId;
 	  private Integer bookId;
-    private State state;
+    private String state;
+//    private State state;
+
+    public Stock() {}
+
+    public Stock(Integer bookId, String state) {
+    	this.bookId = bookId;
+    	this.state = state;
+    }
 }

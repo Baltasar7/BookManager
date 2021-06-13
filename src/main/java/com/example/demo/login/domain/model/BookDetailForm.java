@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class BookRegistForm {
+public class BookDetailForm {
     private String bookId;
 
     @NotBlank(groups = ValidGroup1.class)
@@ -25,5 +25,7 @@ public class BookRegistForm {
     private String stock;
 
     @NotBlank(groups = ValidGroup1.class)
-    private String state;
+    @Pattern(regexp = "^[0-9]+$", groups = ValidGroup2.class)
+    @Min(value = 0 , groups = ValidGroup3.class)
+    private String rest;
 }

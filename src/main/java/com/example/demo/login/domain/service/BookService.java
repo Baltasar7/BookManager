@@ -7,13 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.Book;
+import com.example.demo.login.domain.model.Stock;
 import com.example.demo.login.domain.repository.mybatis.BookMapper;
+import com.example.demo.login.domain.repository.mybatis.StockMapper;
 
 @Transactional
 @Service
 public class BookService {
 		@Autowired
 		BookMapper mapper;
+		@Autowired
+		StockMapper stockMapper;
+
+//		private int lastInsertId;
 
     public boolean insert(Book book) {
         int rowNumber = mapper.insertOne(book);
@@ -21,7 +27,7 @@ public class BookService {
         if (rowNumber > 0) {
             result = true;
         }
-        return result;
+       return result;
     }
 
     public int count() {
@@ -36,7 +42,7 @@ public class BookService {
         return mapper.selectOne(bookId);
     }
 
-    public boolean updateOne(Book book) {
+    private boolean updateOne(Book book) {
         boolean result = false;
         int rowNumber = mapper.updateOne(book);
         if (rowNumber > 0) {
@@ -63,13 +69,52 @@ public class BookService {
       return result;
   }
 */
-    public boolean deleteOne(Integer bookId) {
+    private boolean deleteOne(Integer bookId) {
         int rowNumber = mapper.deleteOne(bookId);
         boolean result = false;
         if (rowNumber > 0) {
             result = true;
         }
         return result;
+    }
+
+    public int getLastInsertId() {
+      //return this.lastInsertId;
+    	return 0;
+    }
+
+    public boolean registBook(
+    	Book book, int stock, String state) {
+    	this.insert(book);
+    	for(int i = 0; i < stock; i++) {
+      	stockMapper.insertOneByRegistBook(book.getBookId(), state);
+    	}
+    	return true;
+    }
+
+    public boolean updateBook(Book book) {
+    	int currentStock = stockMapper.getStockCount(book.getBookId());
+    	int updateStock = book.getStock();
+
+    	if(currentStock > updateStock) {
+    		return false;
+    	}
+
+    	if(currentStock < updateStock) {
+    		Stock stock = new Stock(book.getBookId(), "stock");
+	    	for(; updateStock > currentStock; currentStock++) {
+	    		stockMapper.insertOne(stock);
+	    	}
+    	}
+
+    	this.updateOne(book);
+    	return true;
+    }
+
+    public boolean deleteBook(Integer bookId) {
+    	stockMapper.deleteBook(bookId);
+    	this.deleteOne(bookId);
+    	return true;
     }
 /*
     public void bookCsvOut() throws DataAccessException {

@@ -15,6 +15,8 @@ import com.example.demo.login.domain.repository.mybatis.LendingMapper;
 public class LendingService {
 		@Autowired
 		LendingMapper mapper;
+		@Autowired
+		StockService stockService;
 
     public boolean insert(Lending lending) {
         int rowNumber = mapper.insertOne(lending);
@@ -61,6 +63,38 @@ public class LendingService {
             result = true;
         }
         return result;
+    }
+
+    public boolean addLending(int userId, int stockId) {
+    	Lending lending = new Lending(String.valueOf(userId), stockId);
+    	mapper.insertOne(lending);
+    	return true;
+    }
+
+    public boolean resetApply(int lendingId) {
+    	int stockId = mapper.selectOne(lendingId).getStockId();
+    	if (stockService.selectOne(stockId).getState() != "applying") {
+    		return false;
+    	}
+    	if(!this.deleteOne(lendingId)) {
+        return false;
+    	}
+    	if(!stockService.resetApplyLending(stockId)) {
+    		// TODO:想定外のロールバック
+        throw new RuntimeException();
+    	}
+    	return true;
+    }
+
+    public boolean deleteLending(int lendingId) {
+    	int stockId = mapper.selectOne(lendingId).getStockId();
+    	if(!deleteOne(lendingId)) {
+    		return false;
+    	}
+    	if(!stockService.updateLendable(stockId)) {
+    		return false;
+    	}
+    	return true;
     }
 /*
     public void lendingCsvOut() throws DataAccessException {
