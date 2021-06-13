@@ -107,7 +107,6 @@ public class StockService {
     	mapper.updateOne(stock);
     	return true;
     }
-
     /*
     public void stockCsvOut() throws DataAccessException {
         mapper.stockCsvOut();

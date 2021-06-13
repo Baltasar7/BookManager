@@ -39,15 +39,12 @@ public class HomeLendingController {
     public String getLendingList(
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		Model model) {
-  	 		// Debug
-  	 		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-  	 		//UserDetailsImpl userDatails = UserDetailsImpl.class.cast(auth.getPrincipal());
-
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/lendingList :: lendingList_contents");
 
         List<LendingView> lendingViewList = lendingService.selectAll();
+        lendingService.setLimitDate(lendingViewList);
         model.addAttribute("lendingList", lendingViewList);
 
         int count = lendingService.countAll();
@@ -62,8 +59,10 @@ public class HomeLendingController {
         HttpServletRequest req,
     		Model model) {
 	      try {
-	      	int stockId = Integer.parseInt(req.getParameter("apply"));
+	      	int lendingId = Integer.parseInt(req.getParameter("apply"));
+	      	int stockId = lendingService.getStockId(lendingId);
 	        if (stockService.applyLending(stockId)) {
+	            lendingService.setLendingDate(lendingId);
 	            model.addAttribute("result", "承認成功");
 	        } else {
 	            model.addAttribute("result", "承認失敗、現在の状態は承認可能ではありません。");
