@@ -41,9 +41,9 @@ INSERT INTO m_stock (book_id, state)
 VALUES('6', 'reserve');
 
 
-INSERT INTO m_lending (stock_id, user_id)
-VALUES('1', '112233');
-INSERT INTO m_lending (stock_id, user_id)
-VALUES('3', '123456');
-INSERT INTO m_lending (stock_id, user_id)
-VALUES('7', '123456');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('1', '112233', '2021-06-01');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('3', '123456', '2021-06-02');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('7', '123456', '2021-06-03');

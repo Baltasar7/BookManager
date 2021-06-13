@@ -35,6 +35,7 @@ public class HomeLendingStatusController {
 
         List<LendingView> lendingViewList =
         		lendingService.selectUser(Integer.valueOf(userDetailsImpl.getUserId()));
+        lendingService.setLimitDate(lendingViewList);
         model.addAttribute("lendingList", lendingViewList);
 
         int count = lendingService.countUser(Integer.valueOf(userDetailsImpl.getUserId()));

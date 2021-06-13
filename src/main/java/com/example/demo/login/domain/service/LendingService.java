@@ -1,5 +1,6 @@
 package com.example.demo.login.domain.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class LendingService {
 		LendingMapper mapper;
 		@Autowired
 		StockService stockService;
+
+		// TODO:ConfigureFile
+		static final long LENDING_TERM_DAY = 28;
 
     public boolean insert(Lending lending) {
         int rowNumber = mapper.insertOne(lending);
@@ -95,6 +99,25 @@ public class LendingService {
     		return false;
     	}
     	return true;
+    }
+
+    public int getStockId(int lendingId) {
+    	Lending lending = mapper.selectOne(lendingId);
+    	return lending.getStockId();
+    }
+
+    public void setLendingDate(int lendingId) {
+    	Lending lending = mapper.selectOne(lendingId);
+    	lending.setLendingDate(LocalDate.now());
+    	this.updateOne(lending);
+    }
+
+    public void setLimitDate(List<LendingView> lendingViewList) {
+    	  for(LendingView lendingView: lendingViewList) {
+    	  	if(lendingView.getLendingDate() != null) {
+    	  		lendingView.setLimitDate(lendingView.getLendingDate().plusDays(LENDING_TERM_DAY));
+    	  	}
+    	  }
     }
 /*
     public void lendingCsvOut() throws DataAccessException {

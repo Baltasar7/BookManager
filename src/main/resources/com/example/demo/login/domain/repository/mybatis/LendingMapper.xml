@@ -8,6 +8,7 @@
         <id column="lending_id" property="lendingId" />
         <id column="stock_id" property="stockId" />
         <id column="user_id" property="userId" />
+        <result column="lending_date" property="lendingDate" />
     </resultMap>
     <resultMap type="com.example.demo.login.domain.model.LendingView" id="lendingView">
         <id column="lending_id" property="lendingId" />
@@ -15,6 +16,7 @@
         <result column="title" property="title" />
         <result column="user_name" property="userName" />
         <result column="state" property="state" />
+        <result column="lending_date" property="lendingDate" />
     </resultMap>
 
     <select id="countAll" parameterType="int" resultType="int">
@@ -42,10 +44,12 @@
     <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Lending">
         INSERT INTO m_lending (
             stock_id,
-            user_id)
+            user_id,
+            lending_date)
         VALUES (
             #{stockId},
-            #{userId})
+            #{userId},
+            #{lendingDate})
     </insert>
 
     <select id="selectAll" resultMap="lendingView">
@@ -54,7 +58,8 @@
             m_stock.stock_id,
             title,
             user_name,
-            state
+            state,
+            lending_date
         FROM
             m_lending,
             m_stock,
@@ -81,7 +86,8 @@
             m_stock.stock_id,
             title,
             user_name,
-            state
+            state,
+            lending_date
         FROM
             m_lending,
             m_stock,
@@ -99,7 +105,8 @@
         SET
             lending_id = #{lendingId},
             stock_id = #{stockId},
-            user_id = #{userId}
+            user_id = #{userId},
+            lending_date = #{lendingDate}
         WHERE
             lending_id = #{lendingId}
     </update>

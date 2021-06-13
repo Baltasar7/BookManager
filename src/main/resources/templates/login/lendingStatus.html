@@ -16,12 +16,16 @@
 	                <th class="info col-sm-1">貸出ID</th>
 	                <th class="info col-sm-2">タイトル</th>
 	                <th class="info col-sm-1">状態</th>
+	                <th class="info col-sm-1">貸出日</th>
+	                <th class="info col-sm-1">返却期限</th>
 	                <th class="info col-sm-2"></th>
 	            </tr>
 	            <tr th:each="lending : ${lendingList}">
 	                <td th:text="${lending.lendingId}"></td>
 	                <td th:text="${lending.title}"></td>
 	                <td th:text="${lending.state}"></td>
+	                <td th:text="${lending.lendingDate}"></td>
+	                <td th:text="${lending.limitDate}"></td>
 	                <td>
 	                    <button class="btn btn-danger" type="submit" name="reset" th:value="${lending.lendingId}">申請取消</button>
 	                </td>
