@@ -107,6 +107,17 @@ public class StockService {
     	mapper.updateOne(stock);
     	return true;
     }
+
+    public boolean updateLending(int stockId) {
+    	Stock stock = mapper.selectOne(stockId);
+    	stock.setState("lending");
+    	mapper.updateOne(stock);
+    	return true;
+    }
+
+    public boolean isStock(int stockId) {
+    	return mapper.selectOne(stockId).getState().equals("stock") ? true : false;
+    }
     /*
     public void stockCsvOut() throws DataAccessException {
         mapper.stockCsvOut();

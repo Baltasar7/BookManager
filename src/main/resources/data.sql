@@ -38,7 +38,7 @@ VALUES('4', 'lending');
 INSERT INTO m_stock (book_id, state)
 VALUES('5', 'stock');
 INSERT INTO m_stock (book_id, state)
-VALUES('6', 'reserve');
+VALUES('6', 'pending');
 
 
 INSERT INTO m_lending (stock_id, user_id, lending_date)

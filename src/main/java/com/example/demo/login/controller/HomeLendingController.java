@@ -20,6 +20,7 @@ import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.Lending;
 import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.model.LendingView;
+import com.example.demo.login.domain.model.State;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
 //import com.example.demo.login.domain.model.LendingRegistForm;
@@ -45,6 +46,9 @@ public class HomeLendingController {
 
         List<LendingView> lendingViewList = lendingService.selectAll();
         lendingService.setLimitDate(lendingViewList);
+        for(LendingView lendingView: lendingViewList) {
+        	lendingView.setState(State.getDispStr(lendingView.getState()));
+        }
         model.addAttribute("lendingList", lendingViewList);
 
         int count = lendingService.countAll();
@@ -198,8 +202,15 @@ public class HomeLendingController {
         lending.setUserId(form.getUserId());
 
         try {
-				    boolean result = lendingService.insert(lending);
-				    if (result == true) {
+        	  if (!stockService.isStock(lending.getStockId())) {
+              model.addAttribute("result", "追加失敗、指定した在庫は貸出可能状態ではありません。");
+	            return getLendingRegist(userDetailsImpl, form, model);
+        	  }
+
+        	  boolean result = lendingService.insert(lending);
+				    if (result) {
+				    		stockService.updateLending(lending.getStockId());
+	              lendingService.setLendingDate(lending.getLendingId());
 	              model.addAttribute("result", "追加成功");
 		            return getLendingList(userDetailsImpl, model);
 				    } else {

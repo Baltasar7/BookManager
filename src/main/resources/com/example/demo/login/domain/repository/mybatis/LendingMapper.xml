@@ -41,7 +41,7 @@
             m_user.user_id = #{userId}
     </select>
 
-    <insert id="insertOne" parameterType="com.example.demo.login.domain.model.Lending">
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="lendingId" parameterType="com.example.demo.login.domain.model.Lending">
         INSERT INTO m_lending (
             stock_id,
             user_id,

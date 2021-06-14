@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.login.domain.model.LendingView;
+import com.example.demo.login.domain.model.State;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 //import com.example.demo.login.domain.model.LendingRegistForm;
 import com.example.demo.login.domain.service.LendingService;
@@ -36,6 +37,9 @@ public class HomeLendingStatusController {
         List<LendingView> lendingViewList =
         		lendingService.selectUser(Integer.valueOf(userDetailsImpl.getUserId()));
         lendingService.setLimitDate(lendingViewList);
+        for(LendingView lendingView: lendingViewList) {
+        	lendingView.setState(State.getDispStr(lendingView.getState()));
+        }
         model.addAttribute("lendingList", lendingViewList);
 
         int count = lendingService.countUser(Integer.valueOf(userDetailsImpl.getUserId()));

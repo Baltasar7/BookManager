@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.login.domain.model.State;
 import com.example.demo.login.domain.model.Stock;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
@@ -33,6 +34,9 @@ public class HomeStockController {
         model.addAttribute("contents", "login/stockList :: stockList_contents");
 
         List<Stock> stockList = stockService.selectAll();
+        for(Stock stock: stockList) {
+        	stock.setState(State.getDispStr(stock.getState()));
+        }
         model.addAttribute("stockList", stockList);
 
         int count = stockService.count();
