@@ -14,6 +14,7 @@ public interface StockMapper {
   public int getStockCount(int bookId) throws DataAccessException;
   public int getRestCount(int bookId) throws DataAccessException;
   public int insertOne(Stock stock) throws DataAccessException;
+  public int withIdInsertOne(Stock stock) throws DataAccessException;
   public int insertOneByRegistBook(
   		@Param("bookId") int bookId, @Param("state") String state) throws DataAccessException;
   public Stock selectOne(int stockId) throws DataAccessException;
@@ -22,5 +23,6 @@ public interface StockMapper {
   public int updateOne(Stock stock) throws DataAccessException;
   public int deleteOne(int stockId) throws DataAccessException;
   public int deleteBook(int bookId) throws DataAccessException;
+  public int deleteAll() throws DataAccessException;
 //  public void stockCsvOut() throws DataAccessException;
 }

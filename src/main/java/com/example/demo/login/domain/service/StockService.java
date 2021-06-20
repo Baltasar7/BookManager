@@ -18,21 +18,23 @@ public class StockService {
 		LendingService lendingService;
 
     public boolean insert(Stock stock) {
-        int rowNumber = mapper.insertOne(stock);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+      if (mapper.insertOne(stock) <= 0) {
+          return false;
+      }
+      return true;
     }
 
-    public boolean insert(
-    	int bookId, int stock, String state) {
-      return true;
-   }
+		public boolean insertListFromFile(List<Stock> stockList) {
+			for (Stock stock: stockList) {
+				if (mapper.withIdInsertOne(stock) <= 0) {
+					return false;
+				}
+			}
+			return true;
+		}
 
     public int count() {
-        return mapper.count();
+      return mapper.count();
     }
 
     public int getStockCount(int bookId) {
@@ -61,13 +63,18 @@ public class StockService {
     }
 
     public boolean deleteOne(int stockId) {
-        int rowNumber = mapper.deleteOne(stockId);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+      if (mapper.deleteOne(stockId) <= 0) {
+        return false;
+      }
+        return true;
     }
+
+    public boolean deleteAll() {
+      if (mapper.deleteAll() <= 0) {
+          return false;
+      }
+      return true;
+  }
 
     public int applyBook(int userId, int bookId) {
     	List<Stock> restItems = mapper.selectRestItems(bookId);

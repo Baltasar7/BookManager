@@ -63,4 +63,8 @@
     <delete id="deleteOne" parameterType="string">
         DELETE FROM m_user WHERE user_id = #{userId}
     </delete>
+
+    <delete id="deleteAll" parameterType="string">
+        DELETE FROM m_user
+    </delete>
 </mapper>

@@ -23,13 +23,20 @@ public class LendingService {
 		static final long LENDING_TERM_DAY = 28;
 
     public boolean insert(Lending lending) {
-        int rowNumber = mapper.insertOne(lending);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+      if (mapper.insertOne(lending) <= 0) {
+          return false;
+      }
+      return true;
     }
+
+		public boolean insertListFromFile(List<Lending> lendingList) {
+			for (Lending lending: lendingList) {
+				if (mapper.withIdInsertOne(lending) <= 0) {
+					return false;
+				}
+			}
+			return true;
+		}
 
     public int countAll() {
         return mapper.countAll();
@@ -39,9 +46,13 @@ public class LendingService {
       return mapper.countUser(userId);
     }
 
-    public List<LendingView> selectAll() {
-        return mapper.selectAll();
-    }
+    public List<Lending> selectAll() {
+      return mapper.selectAll();
+  }
+
+    public List<LendingView> selectAllLendingView() {
+      return mapper.selectAllLendingView();
+  }
 
     public Lending selectOne(Integer lendingId) {
         return mapper.selectOne(lendingId);
@@ -60,14 +71,19 @@ public class LendingService {
         return result;
     }
 
-    public boolean deleteOne(Integer lendingId) {
-        int rowNumber = mapper.deleteOne(lendingId);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+    public boolean deleteOne(int lendingId) {
+      if (mapper.deleteOne(lendingId) <= 0) {
+        return false;
+      }
+        return true;
     }
+
+    public boolean deleteAll() {
+      if (mapper.deleteAll() <= 0) {
+          return false;
+      }
+      return true;
+  }
 
     public boolean addLending(int userId, int stockId) {
     	Lending lending = new Lending(String.valueOf(userId), stockId);

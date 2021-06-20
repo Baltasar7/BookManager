@@ -44,7 +44,7 @@ public class HomeLendingController {
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/lendingList :: lendingList_contents");
 
-        List<LendingView> lendingViewList = lendingService.selectAll();
+        List<LendingView> lendingViewList = lendingService.selectAllLendingView();
         lendingService.setLimitDate(lendingViewList);
         for(LendingView lendingView: lendingViewList) {
         	lendingView.setState(State.getDispStr(lendingView.getState()));

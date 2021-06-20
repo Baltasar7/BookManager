@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"></meta>
+</head>
+<body>
+    <div th:fragment="configFileList_contents">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-header">
+                    <h1>設定ファイル管理</h1>
+                </div>
+                <form method="post" th:action="@{/configFileList}" enctype="multipart/form-data">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th class="active col-sm-2">ユーザデータ</th>
+                            <td class="col-sm-3">
+                                <input type="file" name="user_file" accept=".csv"/>
+                            </td>
+                            <td class="col-sm-1">
+                                <button class="btn btn-primary" type="submit" name="user_upload">アップロード</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active col-sm-2">書籍データ</th>
+                            <td class="col-sm-3">
+                                <input type="file" name="book_file" accept=".csv"/>
+                            </td>
+                            <td class="col-sm-1">
+                                <button class="btn btn-primary" type="submit" name="book_upload">アップロード</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active col-sm-2">在庫データ</th>
+                            <td class="col-sm-3">
+                                <input type="file" name="stock_file" accept=".csv"/>
+                            </td>
+                            <td class="col-sm-1">
+                                <button class="btn btn-primary" type="submit" name="stock_upload">アップロード</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active col-sm-2">貸出データ</th>
+                            <td class="col-sm-3">
+                                <input type="file" name="lending_file" accept=".csv"/>
+                            </td>
+                            <td class="col-sm-1">
+                                <button class="btn btn-primary" type="submit" name="lending_upload">アップロード</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button class="btn btn-primary btn-lg" type="submit" name="all_download">ダウンロード</button>
+                        <button class="btn btn-danger btn-lg" type="submit" name="all_delete">全削除</button><br/>
+                        <label class="text-info" th:text="${result}">結果表示</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
