@@ -43,6 +43,19 @@
 -->
     </insert>
 
+    <insert id="withIdInsertOne" parameterType="com.example.demo.login.domain.model.Book">
+        INSERT INTO m_book (
+            book_id,
+            title,
+            author,
+            publisher)
+        VALUES (
+            #{bookId},
+            #{title},
+            #{author},
+            #{publisher})
+    </insert>
+
     <select id="selectOne" parameterType="int" resultMap="book">
         SELECT
             *
@@ -87,6 +100,10 @@
 -->
     <delete id="deleteOne" parameterType="int">
         DELETE FROM m_book WHERE book_id = #{bookId}
+    </delete>
+
+    <delete id="deleteAll" parameterType="string">
+        DELETE FROM m_book
     </delete>
 
 <!--

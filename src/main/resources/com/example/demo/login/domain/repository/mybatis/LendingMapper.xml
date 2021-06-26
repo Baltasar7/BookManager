@@ -52,7 +52,27 @@
             #{lendingDate})
     </insert>
 
-    <select id="selectAll" resultMap="lendingView">
+    <insert id="withIdInsertOne" parameterType="com.example.demo.login.domain.model.Lending">
+        INSERT INTO m_lending (
+            lending_id,
+            stock_id,
+            user_id,
+            lending_date)
+        VALUES (
+            #{lendingId},
+            #{stockId},
+            #{userId},
+            #{lendingDate})
+    </insert>
+
+    <select id="selectAll" resultMap="lending">
+        SELECT
+            *
+        FROM
+            m_lending
+    </select>
+
+    <select id="selectAllLendingView" resultMap="lendingView">
         SELECT
             lending_id,
             m_stock.stock_id,
@@ -113,5 +133,9 @@
 
     <delete id="deleteOne" parameterType="int">
         DELETE FROM m_lending WHERE lending_id = #{lendingId}
+    </delete>
+
+    <delete id="deleteAll" parameterType="string">
+        DELETE FROM m_lending
     </delete>
 </mapper>

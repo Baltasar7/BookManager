@@ -35,15 +35,19 @@ public class UserService implements UserDetailsService {
     public boolean insert(User user) {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
-
-        int rowNumber = mapper.insertOne(user);
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
+        if (mapper.insertOne(user) <= 0) {
+            return false;
         }
-        return result;
+        return true;
     }
+
+		public boolean insertListFromFile(List<User> userList, String userId) {
+			for (User user: userList) {
+				if (user.getUserId().equals(userId)) continue;
+				if (!this.insert(user)) return false;
+			}
+			return true;
+		}
 
     public int count() {
         return mapper.count();
@@ -72,14 +76,20 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean deleteOne(String userId) {
-        int rowNumber = mapper.deleteOne(userId);
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+      if (mapper.deleteOne(userId) <= 0) {
+        return false;
+      }
+        return true;
     }
+
+    public boolean deleteAllWithoutCurrentUser(String userId) {
+      List<User> userList = this.selectAll();
+      for (User user: userList) {
+      	if (user.getUserId().equals(userId)) continue;
+      	if (mapper.deleteOne(user.getUserId()) <= 0) return false;
+      }
+      return true;
+  }
 /*
     public void userCsvOut() throws DataAccessException {
         mapper.userCsvOut();

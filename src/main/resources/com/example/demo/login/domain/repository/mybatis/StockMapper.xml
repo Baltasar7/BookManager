@@ -45,6 +45,17 @@
             #{state})
     </insert>
 
+    <insert id="withIdInsertOne" parameterType="com.example.demo.login.domain.model.Stock">
+        INSERT INTO m_stock (
+            stock_id,
+            book_id,
+            state)
+        VALUES (
+            #{stockId},
+            #{bookId},
+            #{state})
+    </insert>
+
     <insert id="insertOneByRegistBook">
         INSERT INTO m_stock (
             book_id,
@@ -95,5 +106,9 @@
 
     <delete id="deleteBook" parameterType="int">
         DELETE FROM m_stock WHERE book_id = #{bookId}
+    </delete>
+
+    <delete id="deleteAll" parameterType="string">
+        DELETE FROM m_stock
     </delete>
 </mapper>

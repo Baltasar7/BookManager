@@ -19,16 +19,21 @@ public class BookService {
 		@Autowired
 		StockMapper stockMapper;
 
-//		private int lastInsertId;
-
     public boolean insert(Book book) {
-        int rowNumber = mapper.insertOne(book);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-       return result;
+			if (mapper.insertOne(book) <= 0) {
+			    return false;
+			}
+			return true;
     }
+
+		public boolean insertListFromFile(List<Book> bookList) {
+			for (Book book: bookList) {
+				if (mapper.withIdInsertOne(book) <= 0) {
+					return false;
+				}
+			}
+			return true;
+		}
 
     public int count() {
         return mapper.count();
@@ -69,14 +74,19 @@ public class BookService {
       return result;
   }
 */
-    private boolean deleteOne(Integer bookId) {
-        int rowNumber = mapper.deleteOne(bookId);
-        boolean result = false;
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+    public boolean deleteOne(int bookId) {
+      if (mapper.deleteOne(bookId) <= 0) {
+        return false;
+      }
+        return true;
     }
+
+    public boolean deleteAll() {
+      if (mapper.deleteAll() <= 0) {
+          return false;
+      }
+      return true;
+  }
 
     public int getLastInsertId() {
       //return this.lastInsertId;
