@@ -91,6 +91,17 @@
             state = 'stock'
     </select>
 
+    <select id="findPageByStock" resultMap="stock">
+        SELECT
+            *
+        FROM
+            m_stock
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
+    </select>
+
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Stock">
         UPDATE m_stock
         SET

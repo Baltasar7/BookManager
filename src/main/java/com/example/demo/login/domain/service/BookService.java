@@ -3,6 +3,9 @@ package com.example.demo.login.domain.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +48,13 @@ public class BookService {
 
     public Book selectOne(Integer bookId) {
         return mapper.selectOne(bookId);
+    }
+
+    public Page<Book> findPageByBook(Pageable pageable, int total) {
+  		return new PageImpl<>(
+  				mapper.findPageByBook(pageable),
+  				pageable,
+  				total);
     }
 
     private boolean updateOne(Book book) {

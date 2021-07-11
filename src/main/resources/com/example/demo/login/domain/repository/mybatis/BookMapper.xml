@@ -72,6 +72,17 @@
             m_book
     </select>
 
+    <select id="findPageByBook" resultMap="book">
+        SELECT
+            *
+        FROM
+            m_book
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
+    </select>
+
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Book">
         UPDATE m_book
         SET
