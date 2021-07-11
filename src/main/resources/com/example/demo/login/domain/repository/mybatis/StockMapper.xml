@@ -12,14 +12,14 @@
 
     <select id="count" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
     </select>
 
     <select id="getStockCount" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
         WHERE
@@ -28,7 +28,7 @@
 
     <select id="getRestCount" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
         WHERE

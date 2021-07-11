@@ -9,72 +9,72 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDetailsImpl implements UserDetails {
 
-	  private final User user;
-	  private final ArrayList<SimpleGrantedAuthority> grantedAuthorityList;
+    private final User user;
+    private final ArrayList<SimpleGrantedAuthority> grantedAuthorityList;
 
-	  static ArrayList<SimpleGrantedAuthority> generateGrantedAuthorityList(String role) {
-	  	ArrayList<SimpleGrantedAuthority> grantedAuthorityList;
-	  	grantedAuthorityList = new ArrayList<>();
-	  	grantedAuthorityList.add(new SimpleGrantedAuthority(role));
-	  	return grantedAuthorityList;
-	  }
+    static ArrayList<SimpleGrantedAuthority> generateGrantedAuthorityList(String role) {
+      ArrayList<SimpleGrantedAuthority> grantedAuthorityList;
+      grantedAuthorityList = new ArrayList<>();
+      grantedAuthorityList.add(new SimpleGrantedAuthority(role));
+      return grantedAuthorityList;
+    }
 
-	  public UserDetailsImpl(User user) {
-	  	this.user = user;
-	  	grantedAuthorityList = generateGrantedAuthorityList(user.getRole());
-	  }
+    public UserDetailsImpl(User user) {
+      this.user = user;
+      grantedAuthorityList = generateGrantedAuthorityList(user.getRole());
+    }
 
-		@Override
-		public Collection<? extends GrantedAuthority> getAuthorities() {
-			return grantedAuthorityList;
-		}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return grantedAuthorityList;
+    }
 
-		@Override
-		public String getPassword() {
-			return user.getPassword();
-		}
+    @Override
+    public String getPassword() {
+      return user.getPassword();
+    }
 
-		@Override
-		public String getUsername() {
-			return user.getUserId();
-		}
+    @Override
+    public String getUsername() {
+      return user.getUserId();
+    }
 
-		@Override
-		public boolean isAccountNonExpired() {
-			return true;
-		}
+    @Override
+    public boolean isAccountNonExpired() {
+      return true;
+    }
 
-		@Override
-		public boolean isAccountNonLocked() {
-			return true;
-		}
+    @Override
+    public boolean isAccountNonLocked() {
+      return true;
+    }
 
-		@Override
-		public boolean isCredentialsNonExpired() {
-			return true;
-		}
+    @Override
+    public boolean isCredentialsNonExpired() {
+      return true;
+    }
 
-		@Override
-		public boolean isEnabled() {
-			return true;
-		}
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
 
-		public String getUserId() {
-			return this.getUsername();
-		}
+    public String getUserId() {
+      return this.getUsername();
+    }
 
-		public String getName() {
-			return user.getUserName();
-		}
+    public String getName() {
+      return user.getUserName();
+    }
 
-		public String getRole() {
-			String role = grantedAuthorityList.get(0).toString();
-			if(role.equals("ROLE_ADMIN"))
-				return "管理者";
-			else if (role.equals("ROLE_GENERAL"))
-				return "一般";
-			else
-				return "----";
-		}
+    public String getRole() {
+      String role = grantedAuthorityList.get(0).toString();
+      if(role.equals("ROLE_ADMIN"))
+        return "管理者";
+      else if (role.equals("ROLE_GENERAL"))
+        return "一般";
+      else
+        return "----";
+    }
 
 }

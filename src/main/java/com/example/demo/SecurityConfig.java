@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 /*
-		@Autowired
+    @Autowired
     private DataSource dataSource;
 */
     @Bean
@@ -64,9 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/lendingStatus", true);
 
         http
-	          .logout()
-	          .logoutUrl("/logout")
-	          .logoutSuccessUrl("/login");
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login");
 
         // Debug
         //http.csrf().disable();
@@ -76,10 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-		        .dataSource(dataSource)
-		        .usersByUsernameQuery(USER_SQL)
-		        .authoritiesByUsernameQuery(ROLE_SQL)
-		        .passwordEncoder(passwordEncoder());
+            .dataSource(dataSource)
+            .usersByUsernameQuery(USER_SQL)
+            .authoritiesByUsernameQuery(ROLE_SQL)
+            .passwordEncoder(passwordEncoder());
     }
 */
 }

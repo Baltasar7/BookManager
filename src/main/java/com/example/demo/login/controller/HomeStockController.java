@@ -35,7 +35,7 @@ public class HomeStockController {
 
         List<Stock> stockList = stockService.selectAll();
         for(Stock stock: stockList) {
-        	stock.setState(State.getDispStr(stock.getState()));
+          stock.setState(State.getDispStr(stock.getState()));
         }
         model.addAttribute("stockList", stockList);
 
@@ -51,7 +51,7 @@ public class HomeStockController {
         HttpServletRequest req,
         Model model) {
         try {
-        	int stockId = Integer.parseInt(req.getParameter("delete"));
+          int stockId = Integer.parseInt(req.getParameter("delete"));
           boolean result = stockService.deleteOne(stockId);
           if (result == true) {
               model.addAttribute("result", "削除成功");
@@ -70,7 +70,7 @@ public class HomeStockController {
         HttpServletRequest req,
         Model model) {
         try {
-        	int stockId = Integer.parseInt(req.getParameter("delete"));
+          int stockId = Integer.parseInt(req.getParameter("delete"));
           boolean result = stockService.deleteOne(stockId);
           if (result == true) {
               model.addAttribute("result", "削除成功");

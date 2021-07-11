@@ -16,7 +16,7 @@ public interface StockMapper {
   public int insertOne(Stock stock) throws DataAccessException;
   public int withIdInsertOne(Stock stock) throws DataAccessException;
   public int insertOneByRegistBook(
-  		@Param("bookId") int bookId, @Param("state") String state) throws DataAccessException;
+      @Param("bookId") int bookId, @Param("state") String state) throws DataAccessException;
   public Stock selectOne(int stockId) throws DataAccessException;
   public List<Stock> selectAll() throws DataAccessException;
   public List<Stock> selectRestItems(int bookId) throws DataAccessException;

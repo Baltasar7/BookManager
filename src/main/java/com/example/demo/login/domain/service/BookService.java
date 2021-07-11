@@ -14,26 +14,26 @@ import com.example.demo.login.domain.repository.mybatis.StockMapper;
 @Transactional
 @Service
 public class BookService {
-		@Autowired
-		BookMapper mapper;
-		@Autowired
-		StockMapper stockMapper;
+    @Autowired
+    BookMapper mapper;
+    @Autowired
+    StockMapper stockMapper;
 
     public boolean insert(Book book) {
-			if (mapper.insertOne(book) <= 0) {
-			    return false;
-			}
-			return true;
+      if (mapper.insertOne(book) <= 0) {
+          return false;
+      }
+      return true;
     }
 
-		public boolean insertListFromFile(List<Book> bookList) {
-			for (Book book: bookList) {
-				if (mapper.withIdInsertOne(book) <= 0) {
-					return false;
-				}
-			}
-			return true;
-		}
+    public boolean insertListFromFile(List<Book> bookList) {
+      for (Book book: bookList) {
+        if (mapper.withIdInsertOne(book) <= 0) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     public int count() {
         return mapper.count();
@@ -90,41 +90,41 @@ public class BookService {
 
     public int getLastInsertId() {
       //return this.lastInsertId;
-    	return 0;
+      return 0;
     }
 
     public boolean registBook(
-    	Book book, int stock, String state) {
-    	this.insert(book);
-    	for(int i = 0; i < stock; i++) {
-      	stockMapper.insertOneByRegistBook(book.getBookId(), state);
-    	}
-    	return true;
+      Book book, int stock, String state) {
+      this.insert(book);
+      for(int i = 0; i < stock; i++) {
+        stockMapper.insertOneByRegistBook(book.getBookId(), state);
+      }
+      return true;
     }
 
     public boolean updateBook(Book book) {
-    	int currentStock = stockMapper.getStockCount(book.getBookId());
-    	int updateStock = book.getStock();
+      int currentStock = stockMapper.getStockCount(book.getBookId());
+      int updateStock = book.getStock();
 
-    	if(currentStock > updateStock) {
-    		return false;
-    	}
+      if(currentStock > updateStock) {
+        return false;
+      }
 
-    	if(currentStock < updateStock) {
-    		Stock stock = new Stock(book.getBookId(), "stock");
-	    	for(; updateStock > currentStock; currentStock++) {
-	    		stockMapper.insertOne(stock);
-	    	}
-    	}
+      if(currentStock < updateStock) {
+        Stock stock = new Stock(book.getBookId(), "stock");
+        for(; updateStock > currentStock; currentStock++) {
+          stockMapper.insertOne(stock);
+        }
+      }
 
-    	this.updateOne(book);
-    	return true;
+      this.updateOne(book);
+      return true;
     }
 
     public boolean deleteBook(Integer bookId) {
-    	stockMapper.deleteBook(bookId);
-    	this.deleteOne(bookId);
-    	return true;
+      stockMapper.deleteBook(bookId);
+      this.deleteOne(bookId);
+      return true;
     }
 /*
     public void bookCsvOut() throws DataAccessException {

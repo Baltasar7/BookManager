@@ -9,19 +9,19 @@ import lombok.Data;
 
 @Data
 public class Lending {
-	  @CsvBindByName(column = "貸出ID", required = false)
+    @CsvBindByName(column = "貸出ID", required = false)
     private Integer lendingId;
-	  @CsvBindByName(column = "在庫ID", required = true)
+    @CsvBindByName(column = "在庫ID", required = true)
     private Integer stockId;
-	  @CsvBindByName(column = "ユーザID", required = true)
-		private String userId;
-	  @CsvCustomBindByName(column = "貸出日", required = false, converter = LendingDateConverter.class)
-		private LocalDate lendingDate;
+    @CsvBindByName(column = "ユーザID", required = true)
+    private String userId;
+    @CsvCustomBindByName(column = "貸出日", required = false, converter = LendingDateConverter.class)
+    private LocalDate lendingDate;
 
-		public Lending() {}
+    public Lending() {}
 
-		public Lending(String userId, int stockId) {
-			this.stockId = stockId;
-			this.userId = userId;
-		}
+    public Lending(String userId, int stockId) {
+      this.stockId = stockId;
+      this.userId = userId;
+    }
 }

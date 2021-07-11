@@ -22,7 +22,7 @@
 -->
     <select id="count" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_book
     </select>

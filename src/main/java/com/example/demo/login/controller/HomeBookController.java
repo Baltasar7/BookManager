@@ -33,16 +33,16 @@ public class HomeBookController {
 
     @GetMapping("/bookList")
     public String getBookList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookList :: bookList_contents");
 
         List<Book> BookManageList = bookService.selectAll();
         for(Book book: BookManageList) {
-        	book.setStock(stockService.getStockCount(book.getBookId()));
-        	book.setRest(stockService.getRestCount(book.getBookId()));
+          book.setStock(stockService.getStockCount(book.getBookId()));
+          book.setRest(stockService.getRestCount(book.getBookId()));
         }
 
         model.addAttribute("bookList", BookManageList);
@@ -55,38 +55,38 @@ public class HomeBookController {
 
     @PostMapping(value = "/bookList", params = "apply")
     public String postBookList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         HttpServletRequest req,
-    		Model model) {
+        Model model) {
 
-	      try {
-	      	int bookId = Integer.parseInt(req.getParameter("apply"));
-	        int applyingStockId = stockService.applyBook
-	            (Integer.parseInt(userDetailsImpl.getUserId()), bookId);
-	        if (applyingStockId > 0) {
-	            model.addAttribute("result", "貸出申請成功");
-	        } else {
-	            model.addAttribute("result", "貸出申請失敗、選択した書籍には在庫がなく貸出不可です。");
-	        }
-	      } catch(DataAccessException e) {
-	          model.addAttribute("result", "貸出申請失敗");
-	      }
+        try {
+          int bookId = Integer.parseInt(req.getParameter("apply"));
+          int applyingStockId = stockService.applyBook
+              (Integer.parseInt(userDetailsImpl.getUserId()), bookId);
+          if (applyingStockId > 0) {
+              model.addAttribute("result", "貸出申請成功");
+          } else {
+              model.addAttribute("result", "貸出申請失敗、選択した書籍には在庫がなく貸出不可です。");
+          }
+        } catch(DataAccessException e) {
+            model.addAttribute("result", "貸出申請失敗");
+        }
 
-	      return getBookList(userDetailsImpl, model);
+        return getBookList(userDetailsImpl, model);
     }
 
     @GetMapping("/bookManageList")
     public String getBookManageList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookManageList :: bookManageList_contents");
 
         List<Book> BookManageList = bookService.selectAll();
         for(Book book: BookManageList) {
-        	book.setStock(stockService.getStockCount(book.getBookId()));
-        	book.setRest(stockService.getRestCount(book.getBookId()));
+          book.setStock(stockService.getStockCount(book.getBookId()));
+          book.setRest(stockService.getRestCount(book.getBookId()));
         }
 
         model.addAttribute("bookManageList", BookManageList);
@@ -99,8 +99,8 @@ public class HomeBookController {
 
     @GetMapping("/bookDetail/{id:.+}")
     public String getBookDetail(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute BookDetailForm form,
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute BookDetailForm form,
         Model model,
         @PathVariable("id") String bookId) {
 
@@ -125,14 +125,14 @@ public class HomeBookController {
 
     @PostMapping(value = "/bookDetail", params = "update")
     public String postBookDetailUpdate(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute @Validated(GroupOrder.class) BookDetailForm form,
- 	      BindingResult bindingResult,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute @Validated(GroupOrder.class) BookDetailForm form,
+         BindingResult bindingResult,
+        Model model) {
 
-	      if (bindingResult.hasErrors()) {
-	        return getBookDetail(userDetailsImpl, form, model, form.getBookId());
-	      }
+        if (bindingResult.hasErrors()) {
+          return getBookDetail(userDetailsImpl, form, model, form.getBookId());
+        }
 
         Book book = new Book();
         book.setBookId(Integer.parseInt(form.getBookId()));
@@ -144,46 +144,46 @@ public class HomeBookController {
 
         try {
             boolean result = bookService.updateBook(book);
-		        if (result == true) {
+            if (result == true) {
                 model.addAttribute("result", "更新成功");
-		        } else {
+            } else {
                 model.addAttribute("result", "更新失敗。在庫数を減らす処理は、在庫一覧画面にて行ってください。");
-      	        return getBookDetail(userDetailsImpl, form, model, form.getBookId());
-		        }
+                return getBookDetail(userDetailsImpl, form, model, form.getBookId());
+            }
         } catch(DataAccessException e) {
-	          model.addAttribute("result", "更新失敗");
-		        return getBookDetail(userDetailsImpl, form, model, form.getBookId());
+            model.addAttribute("result", "更新失敗");
+            return getBookDetail(userDetailsImpl, form, model, form.getBookId());
         }
         return getBookManageList(userDetailsImpl, model);
     }
 
     @PostMapping(value = "/bookDetail", params = "delete")
     public String postBookDetailDelete(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute BookDetailForm form,
- 	      BindingResult bindingResult,
- 	      Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute BookDetailForm form,
+         BindingResult bindingResult,
+         Model model) {
 
-	      try {
+        try {
             boolean result = bookService.deleteBook(Integer.parseInt(form.getBookId()));
-			      if (result == true) {
+            if (result == true) {
                 model.addAttribute("result", "削除成功");
-			      } else {
+            } else {
                 model.addAttribute("result", "削除失敗");
-      	        return getBookDetail(userDetailsImpl, form, model, form.getBookId());
-			      }
+                return getBookDetail(userDetailsImpl, form, model, form.getBookId());
+            }
         } catch(DataAccessException e) {
-		        model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
-		        return getBookDetail(userDetailsImpl, form, model, form.getBookId());
+            model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
+            return getBookDetail(userDetailsImpl, form, model, form.getBookId());
         }
         return getBookManageList(userDetailsImpl, model);
     }
 
     @GetMapping("/bookRegist")
     public String getBookRegist(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute BookRegistForm form,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute BookRegistForm form,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
 
@@ -196,10 +196,10 @@ public class HomeBookController {
 
     @PostMapping("/bookRegist")
     public String postBookRegist(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute @Validated(GroupOrder.class) BookRegistForm form,
- 	      BindingResult bindingResult,
-	      Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute @Validated(GroupOrder.class) BookRegistForm form,
+         BindingResult bindingResult,
+        Model model) {
 
         if (bindingResult.hasErrors()) {
             System.out.println("bindingResult hasErrors() true");
@@ -212,14 +212,14 @@ public class HomeBookController {
         book.setPublisher(form.getPublisher());
         try {
           boolean result = bookService.registBook(
-          		book, Integer.parseInt(form.getStock()), form.getState());
-					if (result == true) {
-					    model.addAttribute("result", "追加成功");
-					    return getBookManageList(userDetailsImpl, model);
-					} else {
-					    model.addAttribute("result", "追加失敗");
-					    return getBookRegist(userDetailsImpl, form, model);
-					}
+              book, Integer.parseInt(form.getStock()), form.getState());
+          if (result == true) {
+              model.addAttribute("result", "追加成功");
+              return getBookManageList(userDetailsImpl, model);
+          } else {
+              model.addAttribute("result", "追加失敗");
+              return getBookRegist(userDetailsImpl, form, model);
+          }
         } catch(DataAccessException e) {
           model.addAttribute("result", "追加失敗");
           return getBookRegist(userDetailsImpl, form, model);
@@ -227,13 +227,13 @@ public class HomeBookController {
 /*
         try {
             boolean result = bookService.insert(book);
-						if (result == true) {
-						    model.addAttribute("result", "追加成功");
-						    return getBookManageList(userDetailsImpl, model);
-						} else {
-						    model.addAttribute("result", "追加失敗");
-						    return getBookRegist(userDetailsImpl, form, model);
-						}
+            if (result == true) {
+                model.addAttribute("result", "追加成功");
+                return getBookManageList(userDetailsImpl, model);
+            } else {
+                model.addAttribute("result", "追加失敗");
+                return getBookRegist(userDetailsImpl, form, model);
+            }
         } catch(DataAccessException e) {
             model.addAttribute("result", "追加失敗");
             return getBookRegist(userDetailsImpl, form, model);

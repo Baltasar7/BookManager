@@ -49,24 +49,24 @@
                                 </div>
                             </td>
                         </tr>
-				                <tr>
-				                    <th class="active">在庫数</th>
-				                    <td>
-				                        <div class="form-group">
-				                            <input type="text" class="form-control" th:field="*{stock}" />
-				                            <span class="text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">stock error</span>
-				                        </div>
-				                    </td>
-				                </tr>
-				                <tr>
-				                    <th class="active">残数</th>
-				                    <td>
-				                        <div class="form-group">
-				                            <input type="text" class="form-control" th:field="*{rest}"  readonly="readonly" />
-				                            <span class="text-danger" th:if="${#fields.hasErrors('rest')}" th:errors="*{rest}">rest error</span>
-				                        </div>
-				                    </td>
-				                </tr>
+                        <tr>
+                            <th class="active">在庫数</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{stock}" />
+                                    <span class="text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">stock error</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="active">残数</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{rest}"  readonly="readonly" />
+                                    <span class="text-danger" th:if="${#fields.hasErrors('rest')}" th:errors="*{rest}">rest error</span>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                     <div role="presentation" sec:authorize="hasRole('ADMIN')">
                         <button class="btn btn-primary btn-lg" type="submit" name="update">更新</button>

@@ -12,10 +12,10 @@ import com.example.demo.login.domain.repository.mybatis.StockMapper;
 @Transactional
 @Service
 public class StockService {
-		@Autowired
-		StockMapper mapper;
-		@Autowired
-		LendingService lendingService;
+    @Autowired
+    StockMapper mapper;
+    @Autowired
+    LendingService lendingService;
 
     public boolean insert(Stock stock) {
       if (mapper.insertOne(stock) <= 0) {
@@ -24,14 +24,14 @@ public class StockService {
       return true;
     }
 
-		public boolean insertListFromFile(List<Stock> stockList) {
-			for (Stock stock: stockList) {
-				if (mapper.withIdInsertOne(stock) <= 0) {
-					return false;
-				}
-			}
-			return true;
-		}
+    public boolean insertListFromFile(List<Stock> stockList) {
+      for (Stock stock: stockList) {
+        if (mapper.withIdInsertOne(stock) <= 0) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     public int count() {
       return mapper.count();
@@ -77,53 +77,53 @@ public class StockService {
   }
 
     public int applyBook(int userId, int bookId) {
-    	List<Stock> restItems = mapper.selectRestItems(bookId);
-    	if (restItems.isEmpty()) {
-    	  return -1;
-    	}
-    	Stock applyingItem = restItems.get(0);
-    	applyingItem.setState("applying");
-    	mapper.updateOne(applyingItem);
-    	lendingService.addLending(userId, applyingItem.getStockId());
-    	return applyingItem.getStockId();
+      List<Stock> restItems = mapper.selectRestItems(bookId);
+      if (restItems.isEmpty()) {
+        return -1;
+      }
+      Stock applyingItem = restItems.get(0);
+      applyingItem.setState("applying");
+      mapper.updateOne(applyingItem);
+      lendingService.addLending(userId, applyingItem.getStockId());
+      return applyingItem.getStockId();
     }
 
     public boolean applyLending(int stockId) {
-    	Stock stock = mapper.selectOne(stockId);
-    	if(stock.getState() != "applying") {
-    		return false;
-    	}
-    	stock.setState("lending");
-    	mapper.updateOne(stock);
-    	return true;
+      Stock stock = mapper.selectOne(stockId);
+      if(stock.getState() != "applying") {
+        return false;
+      }
+      stock.setState("lending");
+      mapper.updateOne(stock);
+      return true;
     }
 
     public boolean resetApplyLending(int stockId) {
-    	Stock stock = mapper.selectOne(stockId);
-    	if(stock.getState() != "applying") {
-    		return false;
-    	}
-    	stock.setState("stock");
-    	mapper.updateOne(stock);
-    	return true;
+      Stock stock = mapper.selectOne(stockId);
+      if(stock.getState() != "applying") {
+        return false;
+      }
+      stock.setState("stock");
+      mapper.updateOne(stock);
+      return true;
     }
 
     public boolean updateLendable(int stockId) {
-    	Stock stock = mapper.selectOne(stockId);
-    	stock.setState("stock");
-    	mapper.updateOne(stock);
-    	return true;
+      Stock stock = mapper.selectOne(stockId);
+      stock.setState("stock");
+      mapper.updateOne(stock);
+      return true;
     }
 
     public boolean updateLending(int stockId) {
-    	Stock stock = mapper.selectOne(stockId);
-    	stock.setState("lending");
-    	mapper.updateOne(stock);
-    	return true;
+      Stock stock = mapper.selectOne(stockId);
+      stock.setState("lending");
+      mapper.updateOne(stock);
+      return true;
     }
 
     public boolean isStock(int stockId) {
-    	return mapper.selectOne(stockId).getState().equals("stock") ? true : false;
+      return mapper.selectOne(stockId).getState().equals("stock") ? true : false;
     }
     /*
     public void stockCsvOut() throws DataAccessException {

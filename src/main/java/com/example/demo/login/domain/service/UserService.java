@@ -24,13 +24,13 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-  	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-    	User user = selectOne(userId);
-    	if(userId == null) {
-    		throw new UsernameNotFoundException(userId + " is not found");
-    	}
-    	return new UserDetailsImpl(user);
-  	}
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+      User user = selectOne(userId);
+      if(userId == null) {
+        throw new UsernameNotFoundException(userId + " is not found");
+      }
+      return new UserDetailsImpl(user);
+    }
 
     public boolean insert(User user) {
         String password = passwordEncoder.encode(user.getPassword());
@@ -41,13 +41,13 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-		public boolean insertListFromFile(List<User> userList, String userId) {
-			for (User user: userList) {
-				if (user.getUserId().equals(userId)) continue;
-				if (!this.insert(user)) return false;
-			}
-			return true;
-		}
+    public boolean insertListFromFile(List<User> userList, String userId) {
+      for (User user: userList) {
+        if (user.getUserId().equals(userId)) continue;
+        if (!this.insert(user)) return false;
+      }
+      return true;
+    }
 
     public int count() {
         return mapper.count();
@@ -85,8 +85,8 @@ public class UserService implements UserDetailsService {
     public boolean deleteAllWithoutCurrentUser(String userId) {
       List<User> userList = this.selectAll();
       for (User user: userList) {
-      	if (user.getUserId().equals(userId)) continue;
-      	if (mapper.deleteOne(user.getUserId()) <= 0) return false;
+        if (user.getUserId().equals(userId)) continue;
+        if (mapper.deleteOne(user.getUserId()) <= 0) return false;
       }
       return true;
   }

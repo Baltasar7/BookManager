@@ -14,13 +14,13 @@ import com.example.demo.login.domain.repository.mybatis.LendingMapper;
 @Transactional
 @Service
 public class LendingService {
-		@Autowired
-		LendingMapper mapper;
-		@Autowired
-		StockService stockService;
+    @Autowired
+    LendingMapper mapper;
+    @Autowired
+    StockService stockService;
 
-		// TODO:ConfigureFile
-		static final long LENDING_TERM_DAY = 28;
+    // TODO:ConfigureFile
+    static final long LENDING_TERM_DAY = 28;
 
     public boolean insert(Lending lending) {
       if (mapper.insertOne(lending) <= 0) {
@@ -29,14 +29,14 @@ public class LendingService {
       return true;
     }
 
-		public boolean insertListFromFile(List<Lending> lendingList) {
-			for (Lending lending: lendingList) {
-				if (mapper.withIdInsertOne(lending) <= 0) {
-					return false;
-				}
-			}
-			return true;
-		}
+    public boolean insertListFromFile(List<Lending> lendingList) {
+      for (Lending lending: lendingList) {
+        if (mapper.withIdInsertOne(lending) <= 0) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     public int countAll() {
         return mapper.countAll();
@@ -86,54 +86,54 @@ public class LendingService {
   }
 
     public boolean addLending(int userId, int stockId) {
-    	Lending lending = new Lending(String.valueOf(userId), stockId);
-    	mapper.insertOne(lending);
-    	return true;
+      Lending lending = new Lending(String.valueOf(userId), stockId);
+      mapper.insertOne(lending);
+      return true;
     }
 
     public boolean resetApply(int lendingId) {
-    	int stockId = mapper.selectOne(lendingId).getStockId();
-    	if (stockService.selectOne(stockId).getState() != "applying") {
-    		return false;
-    	}
-    	if(!this.deleteOne(lendingId)) {
+      int stockId = mapper.selectOne(lendingId).getStockId();
+      if (stockService.selectOne(stockId).getState() != "applying") {
         return false;
-    	}
-    	if(!stockService.resetApplyLending(stockId)) {
-    		// TODO:想定外のロールバック
+      }
+      if(!this.deleteOne(lendingId)) {
+        return false;
+      }
+      if(!stockService.resetApplyLending(stockId)) {
+        // TODO:想定外のロールバック
         throw new RuntimeException();
-    	}
-    	return true;
+      }
+      return true;
     }
 
     public boolean deleteLending(int lendingId) {
-    	int stockId = mapper.selectOne(lendingId).getStockId();
-    	if(!deleteOne(lendingId)) {
-    		return false;
-    	}
-    	if(!stockService.updateLendable(stockId)) {
-    		return false;
-    	}
-    	return true;
+      int stockId = mapper.selectOne(lendingId).getStockId();
+      if(!deleteOne(lendingId)) {
+        return false;
+      }
+      if(!stockService.updateLendable(stockId)) {
+        return false;
+      }
+      return true;
     }
 
     public int getStockId(int lendingId) {
-    	Lending lending = mapper.selectOne(lendingId);
-    	return lending.getStockId();
+      Lending lending = mapper.selectOne(lendingId);
+      return lending.getStockId();
     }
 
     public void setLendingDate(int lendingId) {
-    	Lending lending = mapper.selectOne(lendingId);
-    	lending.setLendingDate(LocalDate.now());
-    	this.updateOne(lending);
+      Lending lending = mapper.selectOne(lendingId);
+      lending.setLendingDate(LocalDate.now());
+      this.updateOne(lending);
     }
 
     public void setLimitDate(List<LendingView> lendingViewList) {
-    	  for(LendingView lendingView: lendingViewList) {
-    	  	if(lendingView.getLendingDate() != null) {
-    	  		lendingView.setLimitDate(lendingView.getLendingDate().plusDays(LENDING_TERM_DAY));
-    	  	}
-    	  }
+        for(LendingView lendingView: lendingViewList) {
+          if(lendingView.getLendingDate() != null) {
+            lendingView.setLimitDate(lendingView.getLendingDate().plusDays(LENDING_TERM_DAY));
+          }
+        }
     }
 /*
     public void lendingCsvOut() throws DataAccessException {
