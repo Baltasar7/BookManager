@@ -135,16 +135,4 @@ public class StockService {
     public boolean isStock(int stockId) {
       return mapper.selectOne(stockId).getState().equals("stock") ? true : false;
     }
-    /*
-    public void stockCsvOut() throws DataAccessException {
-        mapper.stockCsvOut();
-    }
-
-    public byte[] getFile(String fileName) throws IOException {
-        FileSystem fs = FileSystems.getDefault();
-        Path p = fs.getPath(fileName);
-        byte[] bytes = Files.readAllBytes(p);
-        return bytes;
-    }
-*/
 }

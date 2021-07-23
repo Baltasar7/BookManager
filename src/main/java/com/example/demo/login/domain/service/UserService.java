@@ -90,17 +90,4 @@ public class UserService implements UserDetailsService {
       }
       return true;
   }
-/*
-    public void userCsvOut() throws DataAccessException {
-        mapper.userCsvOut();
-    }
-
-    public byte[] getFile(String fileName) throws IOException {
-        FileSystem fs = FileSystems.getDefault();
-        Path p = fs.getPath(fileName);
-        byte[] bytes = Files.readAllBytes(p);
-
-        return bytes;
-    }
-*/
 }

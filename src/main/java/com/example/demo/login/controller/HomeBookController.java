@@ -12,16 +12,19 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.login.domain.model.Book;
 import com.example.demo.login.domain.model.BookDetailForm;
 import com.example.demo.login.domain.model.BookRegistForm;
+import com.example.demo.login.domain.model.BookSearchForm;
 import com.example.demo.login.domain.model.GroupOrder;
 import com.example.demo.login.domain.model.UserDetailsImpl;
 import com.example.demo.login.domain.service.BookService;
@@ -38,15 +41,26 @@ public class HomeBookController {
     public String getBookList(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         @PageableDefault(page = 0, size = 5) Pageable pageable,
+        @ModelAttribute("bookSearchForm") BookSearchForm searchForm,
         Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookList :: bookList_contents");
 
-        int total = bookService.count();
+        model.addAttribute("bookSearchForm", searchForm);
+
+        Page<Book> bookPage = null;
+        int total = 0;
+        if( !searchForm.isLendable() && StringUtils.isEmpty(searchForm.getTitle())) {
+        	bookPage = bookService.findPageByBook(pageable);
+        	total = bookService.count();
+        }
+        else {
+        	bookPage = bookService.findPageByBookAndSearch(pageable, searchForm);
+          total = bookService.countHitSearch(searchForm);
+        }
         model.addAttribute("bookListCount", total);
 
-        Page<Book> bookPage = bookService.findPageByBook(pageable, total);
         List<Book> list = bookPage.getContent();
         for(Book book: list) {
           book.setStock(stockService.getStockCount(book.getBookId()));
@@ -63,7 +77,7 @@ public class HomeBookController {
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         @PageableDefault(page = 0, size = 5) Pageable pageable,
         Model model) {
-        return getBookList(userDetailsImpl, pageable, model);
+        return "forward:/bookList";
     }
 
     @PostMapping(value = "/bookList", params = "apply")
@@ -85,8 +99,22 @@ public class HomeBookController {
             model.addAttribute("result", "貸出申請失敗");
         }
         // TODO: 削除時のthymeleaf href urlがstockＬist固定なので先頭ページに戻る
-        return getBookList(userDetailsImpl, pageable, model);
+        return "redirect:/bookList";
     }
+
+
+
+    @PostMapping(value = "/bookList/search", params = "search")
+    public String postBookSearchList(
+        @ModelAttribute BookSearchForm form,
+        RedirectAttributes attr,
+        Model model) {
+    	  attr.addFlashAttribute("bookSearchForm", form);
+    	 // TODO: 削除時のthymeleaf href urlがstockＬist固定なので先頭ページに戻る
+        return "redirect:/bookList";
+    }
+
+
 
     @GetMapping("/bookDetail/{id:.+}")
     public String getBookDetail(
@@ -172,19 +200,32 @@ public class HomeBookController {
         return "redirect:/bookManageList";
     }
 
+
+
     @GetMapping("/bookManageList")
     public String getBookManageList(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         @PageableDefault(page = 0, size = 5) Pageable pageable,
+        @ModelAttribute("bookSearchForm") BookSearchForm searchForm,
         Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/bookManageList :: bookManageList_contents");
 
-        int total = bookService.count();
+        model.addAttribute("bookSearchForm", searchForm);
+
+        Page<Book> bookPage = null;
+        int total = 0;
+        if( !searchForm.isLendable() && StringUtils.isEmpty(searchForm.getTitle())) {
+        	bookPage = bookService.findPageByBook(pageable);
+        	total = bookService.count();
+        }
+        else {
+        	bookPage = bookService.findPageByBookAndSearch(pageable, searchForm);
+          total = bookService.countHitSearch(searchForm);
+        }
         model.addAttribute("bookManageListCount", total);
 
-        Page<Book> bookPage = bookService.findPageByBook(pageable, total);
         List<Book> list = bookPage.getContent();
         for(Book book: list) {
           book.setStock(stockService.getStockCount(book.getBookId()));
@@ -201,8 +242,20 @@ public class HomeBookController {
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         @PageableDefault(page = 0, size = 5) Pageable pageable,
         Model model) {
-        return getBookManageList(userDetailsImpl, pageable, model);
+    	  return "forward:/bookManageList";
     }
+
+    @PostMapping(value = "/bookManageList/search", params = "search")
+    public String postBookManageSearchList(
+        @ModelAttribute BookSearchForm form,
+        RedirectAttributes attr,
+        Model model) {
+    	  attr.addFlashAttribute("bookSearchForm", form);
+    	 // TODO: 削除時のthymeleaf href urlがstockＬist固定なので先頭ページに戻る
+        return "redirect:/bookManageList";
+    }
+
+
 
     @GetMapping("/bookManageDetail/{id:.+}")
     public String getBookManageDetail(
@@ -287,6 +340,8 @@ public class HomeBookController {
         //return getBookManageList(userDetailsImpl, model);
         return "redirect:/bookManageList";
     }
+
+
 
     @GetMapping("/bookRegist")
     public String getBookRegist(

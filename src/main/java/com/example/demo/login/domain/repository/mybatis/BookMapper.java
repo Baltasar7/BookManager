@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
 
 import com.example.demo.login.domain.model.Book;
+import com.example.demo.login.domain.model.BookSearchForm;
 
 @Mapper
 public interface BookMapper {
@@ -27,4 +28,8 @@ public interface BookMapper {
   /* Pagenation */
   public List<Book> findPageByBook(
       @Param("pageable") Pageable pegable);
+  public List<Book> findPageByBookAndSearch(
+      @Param("pageable") Pageable pegable, @Param("form") BookSearchForm form);
+  public int countHitSearch(
+  		@Param("form") BookSearchForm form) throws DataAccessException;
 }

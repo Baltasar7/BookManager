@@ -135,16 +135,4 @@ public class LendingService {
           }
         }
     }
-/*
-    public void lendingCsvOut() throws DataAccessException {
-        mapper.lendingCsvOut();
-    }
-
-    public byte[] getFile(String fileName) throws IOException {
-        FileSystem fs = FileSystems.getDefault();
-        Path p = fs.getPath(fileName);
-        byte[] bytes = Files.readAllBytes(p);
-        return bytes;
-    }
-*/
 }

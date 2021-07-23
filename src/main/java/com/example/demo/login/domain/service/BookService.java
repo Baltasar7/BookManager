@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.login.domain.model.Book;
+import com.example.demo.login.domain.model.BookSearchForm;
 import com.example.demo.login.domain.model.Stock;
 import com.example.demo.login.domain.repository.mybatis.BookMapper;
 import com.example.demo.login.domain.repository.mybatis.StockMapper;
@@ -42,6 +43,10 @@ public class BookService {
         return mapper.count();
     }
 
+    public int countHitSearch(BookSearchForm searchForm) {
+      return mapper.countHitSearch(searchForm);
+    }
+
     public List<Book> selectAll() {
         return mapper.selectAll();
     }
@@ -50,11 +55,18 @@ public class BookService {
         return mapper.selectOne(bookId);
     }
 
-    public Page<Book> findPageByBook(Pageable pageable, int total) {
+    public Page<Book> findPageByBook(Pageable pageable) {
   		return new PageImpl<>(
   				mapper.findPageByBook(pageable),
   				pageable,
-  				total);
+  				count());
+    }
+
+    public Page<Book> findPageByBookAndSearch(Pageable pageable, BookSearchForm searchForm) {
+  		return new PageImpl<>(
+  				mapper.findPageByBookAndSearch(pageable, searchForm),
+  				pageable,
+  				countHitSearch(searchForm));
     }
 
     private boolean updateOne(Book book) {
@@ -136,16 +148,4 @@ public class BookService {
       this.deleteOne(bookId);
       return true;
     }
-/*
-    public void bookCsvOut() throws DataAccessException {
-        mapper.bookCsvOut();
-    }
-
-    public byte[] getFile(String fileName) throws IOException {
-        FileSystem fs = FileSystems.getDefault();
-        Path p = fs.getPath(fileName);
-        byte[] bytes = Files.readAllBytes(p);
-        return bytes;
-    }
-*/
 }
