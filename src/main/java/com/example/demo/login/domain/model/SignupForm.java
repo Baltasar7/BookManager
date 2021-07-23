@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class SignupForm {
-		@NotBlank(groups = ValidGroup1.class)
+    @NotBlank(groups = ValidGroup1.class)
     @Pattern(regexp = "^[0-9]+$", groups = ValidGroup2.class)
     @Length(min = 6, max = 6, groups = ValidGroup3.class)
     private String userId;

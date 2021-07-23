@@ -12,34 +12,34 @@
                     <h1>貸出編集</h1>
                 </div>
                 <form method="post" th:action="@{/lendingEdit}" th:object="${lendingRegistForm}">
-						            <table class="table table-bordered table-hover">
-						                <tr>
-						                    <th class="active col-sm-3">貸出ID</th>
-						                    <td>
-						                        <div class="form-group">
-						                            <input type="text" class="form-control" th:field="*{lendingId}"  readonly="readonly" />
-						                        </div>
-						                    </td>
-						                </tr>
-														<tr>
-						                    <th class="active">在庫ID</th>
-						                    <td>
-						                        <div class="form-group">
-						                            <input type="text" class="form-control" th:field="*{stockId}" />
-						                            <span class="text-danger" th:if="${#fields.hasErrors('stockId')}" th:errors="*{stockId}">stockId error</span>
-						                        </div>
-						                    </td>
-						                </tr>
-						                <tr>
-						                    <th class="active">ユーザID</th>
-						                    <td>
-						                        <div class="form-group">
-						                            <input type="text" class="form-control" th:field="*{userId}" />
-						                            <span class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">userId error</span>
-						                        </div>
-						                    </td>
-						                </tr>
-						            </table>
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <th class="active col-sm-3">貸出ID</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:field="*{lendingId}"  readonly="readonly" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="active">在庫ID</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:field="*{stockId}" />
+                                        <span class="text-danger" th:if="${#fields.hasErrors('stockId')}" th:errors="*{stockId}">stockId error</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="active">ユーザID</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" th:field="*{userId}" />
+                                        <span class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">userId error</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     <div>
                         <button class="btn btn-primary btn-lg" type="submit" name="update">更新</button>
                         <button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button><br />

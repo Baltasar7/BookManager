@@ -26,21 +26,21 @@ import com.example.demo.login.domain.service.UserService;
 public class HomeUserController {
     @Autowired
     UserService userService;
-	  private Map<Integer, String> departmentPulldown;
+    private Map<Integer, String> departmentPulldown;
 
-	  private Map<Integer, String> initDepartmentPulldown() {
-	      Map<Integer, String> pulldown = new LinkedHashMap<>();
-	      pulldown.put(0, "福岡営業所");
-	      pulldown.put(1, "東京営業所");
-	      pulldown.put(2, "大阪営業所");
-	      pulldown.put(3, "名古屋営業所");
-	      return pulldown;
-	  }
+    private Map<Integer, String> initDepartmentPulldown() {
+        Map<Integer, String> pulldown = new LinkedHashMap<>();
+        pulldown.put(0, "福岡営業所");
+        pulldown.put(1, "東京営業所");
+        pulldown.put(2, "大阪営業所");
+        pulldown.put(3, "名古屋営業所");
+        return pulldown;
+    }
 
     @GetMapping("/userList")
     public String getUserList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/userList :: userList_contents");
@@ -56,18 +56,18 @@ public class HomeUserController {
 
     @GetMapping("/userDetail/{id:.+}")
     public String getUserDetail(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute SignupForm form,
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute SignupForm form,
         Model model, @PathVariable("id") String userId) {
 
-    	  model.addAttribute("userName", userDetailsImpl.getName());
+        model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
 
         //System.out.println("userId = " + userId);
         model.addAttribute("contents", "login/userDetail :: userDetail_contents");
 
-    		departmentPulldown = initDepartmentPulldown();
-      	model.addAttribute("departmentPulldown", departmentPulldown);
+        departmentPulldown = initDepartmentPulldown();
+        model.addAttribute("departmentPulldown", departmentPulldown);
 
         if (userId != null && userId.length() > 0) {
             User user = userService.selectOne(userId);
@@ -82,14 +82,14 @@ public class HomeUserController {
 
     @PostMapping(value = "/userDetail", params = "update")
     public String postUserDetailUpdate(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
- 	      BindingResult bindingResult,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+         BindingResult bindingResult,
+        Model model) {
 
-	      if (bindingResult.hasErrors()) {
-	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
-	      }
+        if (bindingResult.hasErrors()) {
+          return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+        }
 
         User user = new User();
         user.setUserId(form.getUserId());
@@ -98,63 +98,63 @@ public class HomeUserController {
         user.setDepartment(form.getDepartment());
 
         try {
-        		boolean result = userService.updateOne(user);
-			      if (result == true) {
+            boolean result = userService.updateOne(user);
+            if (result == true) {
                 model.addAttribute("result", "更新成功");
-			      } else {
-			      		model.addAttribute("result", "更新失敗");
-				        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
-			      }
+            } else {
+                model.addAttribute("result", "更新失敗");
+                return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+            }
         } catch(DataAccessException e) {
-        		model.addAttribute("result", "更新失敗");
-  	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+            model.addAttribute("result", "更新失敗");
+            return getUserDetail(userDetailsImpl, form, model, form.getUserId());
         }
         return getUserList(userDetailsImpl, model);
     }
 
     @PostMapping(value = "/userDetail", params = "delete")
     public String postUserDetailDelete(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute SignupForm form,
- 	      BindingResult bindingResult,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute SignupForm form,
+         BindingResult bindingResult,
+        Model model) {
 
         try {
             boolean result = userService.deleteOne(form.getUserId());
-				    if (result == true) {
-	              model.addAttribute("result", "削除成功");
-				    } else {
-	              model.addAttribute("result", "削除失敗");
-	    	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
-				    }
+            if (result == true) {
+                model.addAttribute("result", "削除成功");
+            } else {
+                model.addAttribute("result", "削除失敗");
+                return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+            }
         } catch(DataAccessException e) {
             model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
-  	        return getUserDetail(userDetailsImpl, form, model, form.getUserId());
+            return getUserDetail(userDetailsImpl, form, model, form.getUserId());
         }
         return getUserList(userDetailsImpl, model);
     }
 
     @GetMapping("/signup")
     public String getSignUp(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute SignupForm form,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute SignupForm form,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/signup :: signup_contents");
 
-      	departmentPulldown = initDepartmentPulldown();
-      	model.addAttribute("departmentPulldown", departmentPulldown);
+        departmentPulldown = initDepartmentPulldown();
+        model.addAttribute("departmentPulldown", departmentPulldown);
 
         return "login/homeLayout";
     }
 
     @PostMapping("/signup")
     public String postSignUp(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@ModelAttribute @Validated(GroupOrder.class) SignupForm form,
- 	      BindingResult bindingResult,
-	      Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @ModelAttribute @Validated(GroupOrder.class) SignupForm form,
+         BindingResult bindingResult,
+        Model model) {
 
         if (bindingResult.hasErrors()) {
             return getSignUp(userDetailsImpl, form, model);
@@ -169,13 +169,13 @@ public class HomeUserController {
 
         try {
             boolean result = userService.insert(user);
-				    if (result == true) {
-	              model.addAttribute("result", "追加成功");
-		            return getUserList(userDetailsImpl, model);
-				    } else {
-	              model.addAttribute("result", "追加失敗");
-		            return getSignUp(userDetailsImpl, form, model);
-				    }
+            if (result == true) {
+                model.addAttribute("result", "追加成功");
+                return getUserList(userDetailsImpl, model);
+            } else {
+                model.addAttribute("result", "追加失敗");
+                return getSignUp(userDetailsImpl, form, model);
+            }
         } catch(DataAccessException e) {
             model.addAttribute("result", "追加失敗");
             return getSignUp(userDetailsImpl, form, model);

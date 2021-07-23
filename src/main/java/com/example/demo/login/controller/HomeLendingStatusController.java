@@ -28,17 +28,17 @@ public class HomeLendingStatusController {
 
     @GetMapping("/lendingStatus")
     public String getLendingList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/lendingStatus :: lendingStatus_contents");
 
         List<LendingView> lendingViewList =
-        		lendingService.selectUser(Integer.valueOf(userDetailsImpl.getUserId()));
+            lendingService.selectUser(Integer.valueOf(userDetailsImpl.getUserId()));
         lendingService.setLimitDate(lendingViewList);
         for(LendingView lendingView: lendingViewList) {
-        	lendingView.setState(State.getDispStr(lendingView.getState()));
+          lendingView.setState(State.getDispStr(lendingView.getState()));
         }
         model.addAttribute("lendingList", lendingViewList);
 
@@ -50,20 +50,20 @@ public class HomeLendingStatusController {
 
     @PostMapping(value = "/lendingStatus", params = "reset")
     public String postLendingList(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         HttpServletRequest req,
-    		Model model) {
-	      try {
-	      	int lendingId = Integer.parseInt(req.getParameter("reset"));
-	        if (lendingService.resetApply(lendingId)) {
-	            model.addAttribute("result", "申請取消成功");
-	        } else {
-	            model.addAttribute("result", "申請取消失敗、現在の状態は申請取消可能ではありません。");
-	        }
-	      } catch(DataAccessException e) {
-	          model.addAttribute("result", "申請取消失敗");
-	      }
-	      return getLendingList(userDetailsImpl, model);
+        Model model) {
+        try {
+          int lendingId = Integer.parseInt(req.getParameter("reset"));
+          if (lendingService.resetApply(lendingId)) {
+              model.addAttribute("result", "申請取消成功");
+          } else {
+              model.addAttribute("result", "申請取消失敗、現在の状態は申請取消可能ではありません。");
+          }
+        } catch(DataAccessException e) {
+            model.addAttribute("result", "申請取消失敗");
+        }
+        return getLendingList(userDetailsImpl, model);
     }
 
 }

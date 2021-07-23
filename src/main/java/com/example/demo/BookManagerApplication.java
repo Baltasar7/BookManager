@@ -7,12 +7,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 public class BookManagerApplication extends SpringBootServletInitializer {
-	public static void main(String[] args) {
-		SpringApplication.run(BookManagerApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(BookManagerApplication.class, args);
+  }
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(BookManagerApplication.class);
-	}
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    return application.sources(BookManagerApplication.class);
+  }
 }

@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,22 +31,34 @@ public class HomeStockController {
     @GetMapping("/stockList")
     public String getStockList(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
         Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/stockList :: stockList_contents");
 
-        List<Stock> stockList = stockService.selectAll();
-        for(Stock stock: stockList) {
-        	stock.setState(State.getDispStr(stock.getState()));
-        }
-        model.addAttribute("stockList", stockList);
+        int total = stockService.count();
+        model.addAttribute("stockListCount", total);
 
-        int count = stockService.count();
-        model.addAttribute("stockListCount", count);
+        Page<Stock> stockPage = stockService.findPageByStock(pageable, total);
+        List<Stock> list = stockPage.getContent();
+        for(Stock stock: list) {
+          stock.setState(State.getDispStr(stock.getState()));
+        }
+        model.addAttribute("page", stockPage);
+        model.addAttribute("stockList", list);
 
         return "login/homeLayout";
     }
+
+    @GetMapping("/stockList/pages")
+    public String getStockListPage(
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
+        Model model) {
+        return getStockList(userDetailsImpl, pageable, model);
+    }
+
 /*
     @DeleteMapping(value = "/stockList", params = "delete")
     public String deleteStockDelete(
@@ -51,7 +66,7 @@ public class HomeStockController {
         HttpServletRequest req,
         Model model) {
         try {
-        	int stockId = Integer.parseInt(req.getParameter("delete"));
+          int stockId = Integer.parseInt(req.getParameter("delete"));
           boolean result = stockService.deleteOne(stockId);
           if (result == true) {
               model.addAttribute("result", "削除成功");
@@ -67,10 +82,11 @@ public class HomeStockController {
     @PostMapping(value = "/stockList", params = "delete")
     public String postStockDelete(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
         HttpServletRequest req,
         Model model) {
         try {
-        	int stockId = Integer.parseInt(req.getParameter("delete"));
+          int stockId = Integer.parseInt(req.getParameter("delete"));
           boolean result = stockService.deleteOne(stockId);
           if (result == true) {
               model.addAttribute("result", "削除成功");
@@ -80,6 +96,7 @@ public class HomeStockController {
         } catch(DataAccessException e) {
             model.addAttribute("result", "他テーブルとの参照性違反により、削除失敗");
         }
-        return getStockList(userDetailsImpl, model);
+        // TODO: 削除時のthymeleaf href urlがstockＬist固定なので先頭ページに戻る
+        return getStockList(userDetailsImpl, pageable, model);
     }
 }

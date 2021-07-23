@@ -12,14 +12,14 @@
 
     <select id="count" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
     </select>
 
     <select id="getStockCount" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
         WHERE
@@ -28,7 +28,7 @@
 
     <select id="getRestCount" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_stock
         WHERE
@@ -89,6 +89,17 @@
         WHERE
             book_id = #{bookId} AND
             state = 'stock'
+    </select>
+
+    <select id="findPageByStock" resultMap="stock">
+        SELECT
+            *
+        FROM
+            m_stock
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
     </select>
 
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Stock">

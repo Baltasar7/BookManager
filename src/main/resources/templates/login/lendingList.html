@@ -10,33 +10,33 @@
             <h1>貸出一覧</h1>
         </div>
         <form method="post" th:action="@{/lendingList}">
-	        <table class="table table-bordered table-hover table-striped">
-	            <tr>
-	                <th class="info col-sm-1">貸出ID</th>
-	                <th class="info col-sm-1">在庫ID</th>
-	                <th class="info col-sm-2">タイトル</th>
-	                <th class="info col-sm-2">ユーザ名</th>
-	                <th class="info col-sm-2">状態</th>
-	                <th class="info col-sm-1">貸出日</th>
-	                <th class="info col-sm-1">返却期限</th>
-	                <th class="info col-sm-2"></th>
-	            </tr>
-	            <tr th:each="lending : ${lendingList}">
-	                <td th:text="${lending.lendingId}"></td>
-	                <td th:text="${lending.stockId}"></td>
-	                <td th:text="${lending.title}"></td>
-	                <td th:text="${lending.userName}"></td>
-	                <td th:text="${lending.state}"></td>
-	                <td th:text="${lending.lendingDate}"></td>
-	                <td th:text="${lending.limitDate}"></td>
-	                <td>
-	                   <button class="btn btn-primary" type="submit" name="apply" th:value="${lending.lendingId}">承認</button>
-	                   <span>　　</span>
-	                   <button class="btn btn-danger" type="submit" name="delete" th:value="${lending.lendingId}">削除</button>
-	                </td>
-	            </tr>
-	        </table>
-	      </form>
+          <table class="table table-bordered table-hover table-striped">
+              <tr>
+                  <th class="info col-sm-1">貸出ID</th>
+                  <th class="info col-sm-1">在庫ID</th>
+                  <th class="info col-sm-2">タイトル</th>
+                  <th class="info col-sm-2">ユーザ名</th>
+                  <th class="info col-sm-2">状態</th>
+                  <th class="info col-sm-1">貸出日</th>
+                  <th class="info col-sm-1">返却期限</th>
+                  <th class="info col-sm-2"></th>
+              </tr>
+              <tr th:each="lending : ${lendingList}">
+                  <td th:text="${lending.lendingId}"></td>
+                  <td th:text="${lending.stockId}"></td>
+                  <td th:text="${lending.title}"></td>
+                  <td th:text="${lending.userName}"></td>
+                  <td th:text="${lending.state}"></td>
+                  <td th:text="${lending.lendingDate}"></td>
+                  <td th:text="${lending.limitDate}"></td>
+                  <td>
+                     <button class="btn btn-primary" type="submit" name="apply" th:value="${lending.lendingId}">承認</button>
+                     <span>　　</span>
+                     <button class="btn btn-danger" type="submit" name="delete" th:value="${lending.lendingId}">削除</button>
+                  </td>
+              </tr>
+          </table>
+        </form>
         <label th:text=" '合計：' + ${lendingListCount} + '件' "></label><br/>
         <label class="text-info" th:text="${result}">結果表示</label><br/>
     </div>

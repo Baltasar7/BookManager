@@ -6,13 +6,13 @@
     <meta charset="UTF-8"></meta>
 </head>
 <body>
-    <div th:fragment="bookDetail_contents">
+    <div th:fragment="bookManageDetail_contents">
         <div class="row">
             <div class="col-sm-5">
                 <div class="page-header">
                     <h1>書籍詳細</h1>
                 </div>
-                <form method="post" th:action="@{/bookDetail}" th:object="${bookDetailForm}">
+                <form method="post" th:action="@{/bookManageDetail}" th:object="${bookDetailForm}">
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th class="active col-sm-2">ID</th>
@@ -68,6 +68,11 @@
                             </td>
                         </tr>
                     </table>
+                    <div>
+                        <button class="btn btn-primary btn-lg" type="submit" name="update">更新</button>
+                        <button class="btn btn-danger btn-lg" type="submit" name="delete">削除</button><br/>
+                        <label class="text-info" th:text="${result}">結果表示</label>
+                    </div>
                 </form>
             </div>
         </div>

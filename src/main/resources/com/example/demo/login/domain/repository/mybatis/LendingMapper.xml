@@ -21,14 +21,14 @@
 
     <select id="countAll" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_lending
     </select>
 
     <select id="countUser" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_lending,
             m_stock,

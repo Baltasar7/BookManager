@@ -46,14 +46,14 @@
                 <tr>
                     <th class="active">所属</th>
                     <td>
-          							<div class="form-group" th:classappend="${#fields.hasErrors('department')} ? 'has-error'">
-														<select name="department">
-																<option value=""></option>
-																<option th:each="item : ${departmentPulldown}" th:value="${item.value}" th:text="${item.value}" th:selected="${item.value} == *{department}">singleSelect</option>
-														</select>
-														<br />
-														<span class="text-danger" th:if="${#fields.hasErrors('department')}" th:errors="*{department}">department error</span>
-												</div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('department')} ? 'has-error'">
+                            <select name="department">
+                                <option value=""></option>
+                                <option th:each="item : ${departmentPulldown}" th:value="${item.value}" th:text="${item.value}" th:selected="${item.value} == *{department}">singleSelect</option>
+                            </select>
+                            <br />
+                            <span class="text-danger" th:if="${#fields.hasErrors('department')}" th:errors="*{department}">department error</span>
+                        </div>
                     </td>
                 </tr>
             </table>

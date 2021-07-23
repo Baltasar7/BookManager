@@ -22,9 +22,20 @@
 -->
     <select id="count" parameterType="int" resultType="int">
         SELECT
-						COUNT(*)
+            COUNT(*)
         FROM
             m_book
+    </select>
+
+    <select id="countHitSearch" parameterType="int" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            m_book
+        <if test="form.title != null and form.title != ''">
+            WHERE
+                title LIKE '%' || #{form.title} || '%'
+        </if>
     </select>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="bookId" parameterType="com.example.demo.login.domain.model.Book">
@@ -70,6 +81,32 @@
             *
         FROM
             m_book
+    </select>
+
+    <select id="findPageByBook" resultMap="book">
+        SELECT
+            *
+        FROM
+            m_book
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
+    </select>
+
+    <select id="findPageByBookAndSearch" resultMap="book">
+        SELECT
+            *
+        FROM
+            m_book
+        <if test="form.title != null and form.title != ''">
+            WHERE
+                title LIKE '%' || #{form.title} || '%'
+        </if>
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
     </select>
 
     <update id="updateOne" parameterType="com.example.demo.login.domain.model.Book">

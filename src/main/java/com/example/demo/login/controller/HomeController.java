@@ -14,8 +14,8 @@ public class HomeController {
 /*
     @GetMapping("/home")
     public String getHome(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/home :: home_contents");
@@ -29,8 +29,8 @@ public class HomeController {
 
     @GetMapping("/admin")
     public String getAdmin(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		Model model) {
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        Model model) {
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
         model.addAttribute("contents", "login/admin :: admin_contents");
