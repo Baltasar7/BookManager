@@ -8,10 +8,14 @@
 <body>
     <div th:fragment="bookDetail_contents">
         <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-12">
                 <div class="page-header">
                     <h1>書籍詳細</h1>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
                 <form method="post" th:action="@{/bookDetail}" th:object="${bookDetailForm}">
                     <table class="table table-bordered table-hover">
                         <tr>
@@ -69,6 +73,9 @@
                         </tr>
                     </table>
                 </form>
+            </div>
+            <div class="col-sm-4 align-self-center detail">
+                <img th:src="@{/img/book{bookImgId}.jpg (bookImgId=${bookImgId})}" alt="書籍画像" />
             </div>
         </div>
     </div>

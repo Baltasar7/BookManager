@@ -138,6 +138,7 @@ public class HomeBookController {
 //            form.setStock(book.getStock().toString());
 //            form.setRest(book.getRest().toString());
             model.addAttribute("BookDatailForm", form);
+            model.addAttribute("bookImgId", book.getBookId().toString());
         }
         return "login/homeLayout";
     }
@@ -279,6 +280,7 @@ public class HomeBookController {
 //            form.setStock(book.getStock().toString());
 //            form.setRest(book.getRest().toString());
             model.addAttribute("BookDatailForm", form);
+            model.addAttribute("bookImgId", book.getBookId().toString());
         }
         return "login/homeLayout";
     }
