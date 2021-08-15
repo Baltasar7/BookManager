@@ -145,6 +145,29 @@ public class HomeConfigFileListController {
         return getUserList(userDetailsImpl, model);
     }
 
+    @PostMapping(value = "/configFileList", params = "bookimg_upload")
+    public String postBookImgFileUpload(
+        @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+        @RequestParam("bookimg_file") MultipartFile file,
+        Model model) {
+		/*        try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+		      CsvToBean<Book> csvToUser = new CsvToBeanBuilder<Book>(reader).withType(Book.class).build();
+		      List<Book> bookList = csvToUser.parse();
+		      bookService.insertListFromFile(bookList);
+		      model.addAttribute("result", "書籍登録成功");
+		    }
+		    catch (IOException e) {
+		      System.err.println(e.toString());
+		      model.addAttribute("result", "書籍登録失敗。ファイルの内容を再確認してください。");
+		    }
+		    catch (Exception e) {
+		      System.err.println(e.toString());
+		      model.addAttribute("result", "書籍登録失敗。想定外のエラーが発生しました。");
+		    }
+		*/
+	    return getUserList(userDetailsImpl, model);
+    }
+
     @PostMapping(value = "/configFileList", params = "all_download")
     public String postAllFileDownload(
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,

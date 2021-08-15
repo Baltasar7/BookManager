@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.example.demo.login.domain.model.Book;
 import com.example.demo.login.domain.model.BookDetailForm;
 import com.example.demo.login.domain.model.BookRegistForm;
@@ -271,7 +272,8 @@ public class HomeBookController {
 
         if (bookId != null && bookId.length() > 0) {
             Book book = bookService.selectOne(Integer.parseInt(bookId));
-            form.setBookId(book.getBookId().toString());
+            String idStr = book.getBookId().toString();
+            form.setBookId(idStr);
             form.setTitle(book.getTitle());
             form.setAuthor(book.getAuthor());
             form.setPublisher(book.getPublisher());
@@ -280,7 +282,14 @@ public class HomeBookController {
 //            form.setStock(book.getStock().toString());
 //            form.setRest(book.getRest().toString());
             model.addAttribute("BookDatailForm", form);
-            model.addAttribute("bookImgId", book.getBookId().toString());
+            if(idStr.equals("3")) {
+            	String awsKeyId = System.getenv("AWS_ACCESS_KEY_ID");
+            	String awsSecretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
+            	BasicAWSCredentials credentials =
+            			new BasicAWSCredentials(awsKeyId, awsSecretKey);
+            } else {
+            	model.addAttribute("bookImgId", idStr);
+            }
         }
         return "login/homeLayout";
     }
