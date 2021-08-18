@@ -80,7 +80,8 @@
                 </form>
             </div>
             <div class="col-sm-4 align-self-center detail">
-                <img th:src="@{/img/book{bookImgId}.jpg (bookImgId=${bookImgId})}" alt="書籍画像" />
+<!--                <img th:src="@{/img/book{bookImgId}.jpg (bookImgId=${bookImgId})}" alt="書籍画像" /> -->
+                <img th:src="${base64img}" alt="書籍画像" />
             </div>
         </div>
     </div>

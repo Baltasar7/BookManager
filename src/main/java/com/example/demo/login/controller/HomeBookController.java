@@ -1,9 +1,12 @@
 package com.example.demo.login.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.example.demo.login.domain.model.Book;
 import com.example.demo.login.domain.model.BookDetailForm;
 import com.example.demo.login.domain.model.BookRegistForm;
@@ -264,7 +271,7 @@ public class HomeBookController {
         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
         @ModelAttribute BookDetailForm form,
         Model model,
-        @PathVariable("id") String bookId) {
+        @PathVariable("id") String bookId) throws Exception {
 
         model.addAttribute("userName", userDetailsImpl.getName());
         model.addAttribute("role", userDetailsImpl.getRole());
@@ -283,10 +290,37 @@ public class HomeBookController {
 //            form.setRest(book.getRest().toString());
             model.addAttribute("BookDatailForm", form);
             if(idStr.equals("3")) {
+            	/* memo: credentialsが適切に生成されていることはherokuで確認済み */
             	String awsKeyId = System.getenv("AWS_ACCESS_KEY_ID");
             	String awsSecretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
+
+            	if(awsKeyId == null || awsSecretKey == null) {
+            	  return "login/homeLayout";
+            	}
+
             	BasicAWSCredentials credentials =
             			new BasicAWSCredentials(awsKeyId, awsSecretKey);
+
+            	AmazonS3 s3 = new AmazonS3Client(credentials);
+            	GetObjectRequest req = new GetObjectRequest("bookmanager-public", "img/book3.jpg");
+              S3Object obj = s3.getObject(req);
+
+              InputStream is = obj.getObjectContent();
+              ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+              byte[] byteArray = new byte[5*1024*1024];
+              int size = 0;
+              while((size = is.read(byteArray, 0, byteArray.length)) > 0) {
+              	os.write(byteArray, 0, size);
+              }
+
+              String base64 = new String(Base64.encodeBase64(os.toByteArray()), "ASCII");
+              StringBuffer buff = new StringBuffer();
+              buff.append("data:image/jpeg;base64,");
+              buff.append(base64);
+
+              model.addAttribute("base64img", buff.toString());
+
             } else {
             	model.addAttribute("bookImgId", idStr);
             }
