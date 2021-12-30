@@ -100,7 +100,7 @@ public class StockService {
 
     public boolean applyLending(int stockId) {
       Stock stock = mapper.selectOne(stockId);
-      if(stock.getState() != "applying") {
+      if(!stock.getState().equals("applying")) {
         return false;
       }
       stock.setState("lending");
