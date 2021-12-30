@@ -42,7 +42,7 @@ public class LendingService {
         return mapper.countAll();
     }
 
-    public int countUser(Integer userId) {
+    public int countUser(String userId) {
       return mapper.countUser(userId);
     }
 
@@ -58,7 +58,7 @@ public class LendingService {
         return mapper.selectOne(lendingId);
     }
 
-    public List<LendingView> selectUser(Integer userId) {
+    public List<LendingView> selectUser(String userId) {
       return mapper.selectUser(userId);
   }
 

@@ -35,14 +35,14 @@ public class HomeLendingStatusController {
         model.addAttribute("contents", "login/lendingStatus :: lendingStatus_contents");
 
         List<LendingView> lendingViewList =
-            lendingService.selectUser(Integer.valueOf(userDetailsImpl.getUserId()));
+            lendingService.selectUser(userDetailsImpl.getUserId());
         lendingService.setLimitDate(lendingViewList);
         for(LendingView lendingView: lendingViewList) {
           lendingView.setState(State.getDispStr(lendingView.getState()));
         }
         model.addAttribute("lendingList", lendingViewList);
 
-        int count = lendingService.countUser(Integer.valueOf(userDetailsImpl.getUserId()));
+        int count = lendingService.countUser(userDetailsImpl.getUserId());
         model.addAttribute("lendingListCount", count);
 
         return "login/homeLayout";

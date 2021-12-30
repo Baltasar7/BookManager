@@ -11,13 +11,13 @@ import com.example.demo.login.domain.model.LendingView;
 @Mapper
 public interface LendingMapper {
   public int countAll() throws DataAccessException;
-  public int countUser(Integer userId) throws DataAccessException;
+  public int countUser(String userId) throws DataAccessException;
   public int insertOne(Lending lending) throws DataAccessException;
   public int withIdInsertOne(Lending lending) throws DataAccessException;
   public List<Lending> selectAll() throws DataAccessException;
   public List<LendingView> selectAllLendingView() throws DataAccessException;
   public Lending selectOne(Integer lendingId) throws DataAccessException;
-  public List<LendingView> selectUser(Integer userId) throws DataAccessException;
+  public List<LendingView> selectUser(String userId) throws DataAccessException;
   public int updateOne(Lending lending) throws DataAccessException;
   public int deleteOne(Integer lendingId) throws DataAccessException;
   public int deleteAll() throws DataAccessException;

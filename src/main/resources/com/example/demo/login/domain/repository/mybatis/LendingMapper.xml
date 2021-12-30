@@ -26,7 +26,7 @@
             m_lending
     </select>
 
-    <select id="countUser" parameterType="int" resultType="int">
+    <select id="countUser" parameterType="string" resultType="int">
         SELECT
             COUNT(*)
         FROM
@@ -100,7 +100,7 @@
             lending_id = #{lendingId}
     </select>
 
-    <select id="selectUser" parameterType="int" resultMap="lendingView">
+    <select id="selectUser" parameterType="string" resultMap="lendingView">
         SELECT
             lending_id,
             m_stock.stock_id,
