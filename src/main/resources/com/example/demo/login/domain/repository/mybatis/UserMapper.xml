@@ -8,6 +8,7 @@
         <id column="user_id" property="userId" />
         <result column="password" property="password" />
         <result column="user_name" property="userName" />
+        <result column="mail_addr" property="mailAddr" />
         <result column="department" property="department" />
         <result column="role" property="role" />
     </resultMap>
@@ -24,12 +25,14 @@
             user_id,
             password,
             user_name,
+            mail_addr,
             department,
             role)
         VALUES (
             #{userId},
             #{password},
             #{userName},
+            #{mailAddr},
             #{department},
             #{role})
     </insert>
@@ -55,6 +58,7 @@
         SET
             password = #{password},
             user_name = #{userName},
+            mail_addr = #{mailAddr},
             department = #{department}
         WHERE
             user_id = #{userId}

@@ -14,12 +14,14 @@
             <tr>
                 <th class="info col-sm-1">ユーザID</th>
                 <th class="info col-sm-2">ユーザ名</th>
+                <th class="info col-sm-2">メールアドレス</th>
                 <th class="info col-sm-2">所属</th>
                 <th class="info col-sm-2"></th>
             </tr>
             <tr th:each="user : ${userList}">
                 <td th:text="${user.userId}"></td>
                 <td th:text="${user.userName}"></td>
+                <td th:text="${user.mailAddr}"></td>
                 <td th:text="${user.department}"></td>
                 <td>
                    <a class="btn btn-primary" th:href="@{'/userDetail/' + ${user.userId}}">詳細</a>

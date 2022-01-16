@@ -12,6 +12,8 @@ public class User {
     private String password;
     @CsvBindByName(column = "ユーザ名", required = true)
     private String userName;
+    @CsvBindByName(column = "メールアドレス", required = true)
+    private String mailAddr;
     @CsvBindByName(column = "所属", required = true)
     private String department;
     @CsvBindByName(column = "役割", required = true)

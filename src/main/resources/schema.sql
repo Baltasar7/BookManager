@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS m_user (
     user_id VARCHAR(6) NOT NULL,
     password VARCHAR(255) NOT NULL,
     user_name VARCHAR(32) NOT NULL,
+    mail_addr VARCHAR(128) NOT NULL,
     department VARCHAR(32) NOT NULL,
     role VARCHAR(32) NOT NULL,
     PRIMARY KEY(user_id)

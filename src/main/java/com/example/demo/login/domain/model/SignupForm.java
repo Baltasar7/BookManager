@@ -23,5 +23,9 @@ public class SignupForm {
     private String userName;
 
     @NotBlank(groups = ValidGroup1.class)
+    @Pattern(regexp = "^([a-zA-Z0-9])+([a-zA-Z0-9\\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\\._-]+)+$", groups = ValidGroup2.class)
+    private String mailAddr;
+
+    @NotBlank(groups = ValidGroup1.class)
     private String department;
 }
