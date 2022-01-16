@@ -44,6 +44,15 @@
                     </td>
                 </tr>
                 <tr>
+                    <th class="active">メールアドレス</th>
+                    <td>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('mailAddr')} ? 'has-error'">
+                            <input type="text" class="form-control" th:field="*{mailAddr}" />
+                            <span class="text-danger" th:if="${#fields.hasErrors('mailAddr')}" th:errors="*{mailAddr}">mailAddr error</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <th class="active">所属</th>
                     <td>
                         <div class="form-group" th:classappend="${#fields.hasErrors('department')} ? 'has-error'">
