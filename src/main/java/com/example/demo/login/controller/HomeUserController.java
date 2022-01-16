@@ -74,6 +74,7 @@ public class HomeUserController {
 
             form.setUserId(user.getUserId());
             form.setUserName(user.getUserName());
+            form.setMailAddr(user.getMailAddr());
             form.setDepartment(user.getDepartment());
             model.addAttribute("signupForm", form);
         }
@@ -95,6 +96,7 @@ public class HomeUserController {
         user.setUserId(form.getUserId());
         user.setPassword(form.getPassword());
         user.setUserName(form.getUserName());
+        user.setMailAddr(form.getMailAddr());
         user.setDepartment(form.getDepartment());
 
         try {
@@ -164,6 +166,7 @@ public class HomeUserController {
         user.setUserId(form.getUserId());
         user.setPassword(form.getPassword());
         user.setUserName(form.getUserName());
+        user.setMailAddr(form.getMailAddr());
         user.setDepartment(form.getDepartment());
         user.setRole("ROLE_GENERAL");
 
