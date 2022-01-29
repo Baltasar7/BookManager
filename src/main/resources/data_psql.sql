@@ -19,7 +19,12 @@ INSERT INTO m_book (title, author, publisher)
 VALUES('Java2', 'aaa', 'bbb');
 INSERT INTO m_book (title, author, publisher)
 VALUES('Java3', 'aaa', 'bbb');
-
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java4', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java5', 'aaa', 'bbb');
+INSERT INTO m_book (title, author, publisher)
+VALUES('Java6', 'aaa', 'bbb');
 
 INSERT INTO m_stock (book_id, state)
 VALUES('1', 'lending');
@@ -39,11 +44,22 @@ INSERT INTO m_stock (book_id, state)
 VALUES('5', 'stock');
 INSERT INTO m_stock (book_id, state)
 VALUES('6', 'pending');
+INSERT INTO m_stock (book_id, state)
+VALUES('7', 'lending');
+INSERT INTO m_stock (book_id, state)
+VALUES('8', 'lending');
+INSERT INTO m_stock (book_id, state)
+VALUES('9', 'lending');
 
-
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('1', '112233', '2021-06-01');
+VALUES('1', '112233', '2022-01-20');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('3', '123456', '2021-06-02');
+VALUES('3', '123456', '2021-01-22');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('7', '123456', '2021-06-03');
+VALUES('7', '123456', '2021-01-24');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('10', '112233', '2021-01-25');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('11', '123456', '2021-01-23');
+INSERT INTO m_lending (stock_id, user_id, lending_date)
+VALUES('12', '112233', '2021-01-21');
