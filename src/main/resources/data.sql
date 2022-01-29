@@ -52,14 +52,14 @@ INSERT INTO m_stock (book_id, state)
 VALUES('9', 'lending');
 
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('1', '112233', '2022-01-20');
+VALUES('1', '112233', '2021-12-27');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('3', '123456', '2021-01-22');
+VALUES('3', '123456', '2021-12-28');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('7', '123456', '2021-01-24');
+VALUES('7', '123456', '2021-12-29');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('10', '112233', '2021-01-25');
+VALUES('10', '112233', '2021-12-30');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('11', '123456', '2021-01-23');
+VALUES('11', '123456', '2021-12-31');
 INSERT INTO m_lending (stock_id, user_id, lending_date)
-VALUES('12', '112233', '2021-01-21');
+VALUES('12', '112233', '2022-01-01');

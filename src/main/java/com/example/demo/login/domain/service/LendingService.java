@@ -20,7 +20,7 @@ public class LendingService {
     StockService stockService;
 
     // TODO:ConfigureFile
-    static final long LENDING_TERM_DAY = 28;
+    static final long LENDING_TERM_DAY = 30;
 
     public boolean insert(Lending lending) {
       if (mapper.insertOne(lending) <= 0) {
